@@ -1,0 +1,26 @@
+[
+  {
+    "timestamp": "2026-10-12 10:49:45",
+    "pergunta": "buscar as informações para a demanda de devs no mercado da tecnologia",
+    "resposta": "Não foi possível carregar o módulo 'rag_engine'. Verifique se o arquivo está na mesma pasta do aplicativo.",
+    "avaliacao": "Negativo"
+  },
+  {
+    "timestamp": "2026-10-12 11:20:20",
+    "pergunta": "- Quantos empregos cada segmento (Software, Serviços de TIC e TI In House) gerou em 2021 e qual teve o maior crescimento nominal?\"\n- \"Qual é o comparativo de faturamento e saldo de vagas entre Nuvem e TI In House segundo a Brasscom?\"\n\n",
+    "resposta": "Com base na documentação interna disponível, seguem as respostas para as suas dúvidas:\n\n---\n\n### 1. Saldo de Empregos em 2021 e Crescimento Nominal\n* ...",
+    "avaliacao": "Positivo"
+  },
+  {
+    "timestamp": "2026-10-12 14:16:01",
+    "pergunta": "explorando decisões intuitivas do código de conduta da empresa",
+    "resposta": "Não encontrei essa informação na documentação interna disponível. \n\nO material fornecido não menciona especificamente \"decisões intuitivas\". A documen...",
+    "avaliacao": "Positivo"
+  },
+  {
+    "timestamp": "2026-10-12 14:58:39",
+    "pergunta": "Sobre o as EdTech que temos que poderia informa?",
+    "resposta": "Não encontrei essa informação na documentação interna disponível.\n\nDocumentos utilizados como referência:\n- Relatorio_Brasscom_Demanda_Talentos_TIC.xl...",
+    "avaliacao": "Positivo"
+  }
+]
