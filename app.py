@@ -46,7 +46,7 @@ def save_feedback(query, answer, feedback_type):
     with open(FEEDBACK_FILE, "w", encoding="utf-8") as f:
         json.dump(feedbacks, f, indent=2, ensure_ascii=False)
 
-st.set_page_config(page_title="Agente-Alura-RAG", layout="wide")
+st.set_page_config(page_title="🤖 Agente-Alura-RAG", layout="wide")
 
 # --- SIDEBAR: LOGS E MÉTRICAS ---
 st.sidebar.title("📊 Painel de Avaliações")
@@ -81,12 +81,12 @@ else:
 
 st.sidebar.markdown("---")
 st.sidebar.markdown(
-    "<div style='text-align: center; color: blue; font-size: 1.0rem;'>@2026 - Pedro Zeferino da Silva.</div>",
+    "<div class='footer-texto'>@2026 - Pedro Zeferino da Silva.</div>",
     unsafe_allow_html=True
 )
 
 # --- CHAT PRINCIPAL ---
-st.title("🏢 Base de Conhecimento - Agente Alura Corporativo com Gemini")
+st.title("🤖 Base de Conhecimento - Agente Alura Corporativo com Gemini")
 st.caption("Consulte políticas de RH, finanças, relatórios, manuais e procedimentos internos.")
 
 if "messages" not in st.session_state:
@@ -153,7 +153,7 @@ if prompt := st.chat_input("Digite sua dúvida sobre a empresa..."):
 if hasattr(st, "bottom"):
     with st.bottom:
         st.markdown(
-            "<div style='text-align: center; color: blue; font-size: 1.0rem; padding-top: 4px;'>"
+            "<div class='footer-texto' style='padding-top: 4px;'>"
             "@2026 - Pedro Zeferino da Silva."
             "</div>",
             unsafe_allow_html=True
@@ -161,7 +161,7 @@ if hasattr(st, "bottom"):
 else:
     st.markdown("---")
     st.markdown(
-        "<div style='text-align: center; color: blue; font-size: 1.0rem;'>"
+        "<div class='footer-texto'>"
         "@2026 - Pedro Zeferino da Silva."
         "</div>",
         unsafe_allow_html=True
