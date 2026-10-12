@@ -1,0 +1,27 @@
+# Interface Web (st.bottom, st.chat_input submit_mode, st.status type="step" exigem >=1.57)
+streamlit>=1.57.0
+
+# Ecossistema LangChain 1.x (create_agent, tools, LangGraph checkpointer)
+langchain>=1.0.0
+langchain-classic>=1.0.0
+langchain-community>=0.4.0
+langchain-chroma>=1.0.0
+langchain-google-genai>=3.0.0
+langchain-text-splitters>=1.0.0
+langgraph>=1.0.0
+google-genai>=1.0.0
+google-generativeai>=0.7.0
+
+# Banco vetorial
+chromadb>=0.5.0
+
+# Ingestão de documentos
+pymupdf>=1.24.0
+pypdf>=5.0.0
+pandas>=2.2.2
+python-dotenv>=1.0.1
+python-docx>=1.1.0
+docx2txt>=0.8
+openpyxl>=3.1.5
+python-pptx>=1.0.0
+beautifulsoup4>=4.12.0
