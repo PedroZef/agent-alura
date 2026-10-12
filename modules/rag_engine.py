@@ -24,7 +24,7 @@ def get_query_embedding(query: str) -> list[float]:
     )
     return response.embeddings[0].values
 
-def query_rag(user_query: str, top_k: int = 4) -> dict:
+def query_rag(user_query: str, top_k: int = 6) -> dict:
     query_emb = get_query_embedding(user_query)
     results = collection.query(
         query_embeddings=[query_emb],
@@ -47,9 +47,10 @@ def query_rag(user_query: str, top_k: int = 4) -> dict:
         sources.append(source_name)
         context += f"\n--- Documento: {source_name} ---\n{doc}\n"
 
-    prompt = f"""Você é o Assistente Virtual Alura Corporativo interno da empresa.
-Responda à dúvida do colaborador estritamente com base nos fatos fornecidos no CONTEXTO abaixo.
-Se a informação não estiver contida no contexto, declare expressamente: 'Não encontrei essa informação na documentação interna disponível.'
+    prompt = f"""Você é o Assistente Virtual Corporativo interno da empresa.
+Responda à dúvida do colaborador sintetizando e correlacionando as informações disponíveis no CONTEXTO abaixo.
+Quando a pergunta relacionar mais de um tema ou documento (ex.: estratégia, capacitação, código de conduta, stack técnica), mostre claramente como as informações se complementam.
+Se a informação estiver completamente ausente ou não tiver qualquer base ou menção nos documentos, declare: 'Não encontrei essa informação na documentação interna disponível.'
 Sempre cite ao final os nomes dos documentos utilizados como referência.
 
 CONTEXTO:
