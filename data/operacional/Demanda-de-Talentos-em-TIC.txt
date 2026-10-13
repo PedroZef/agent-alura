@@ -1,0 +1,221 @@
+--- PÁGINA 1 ---
+Demanda de Talentos em TIC eEstratégia                
+.Relatório de Inteligência e Informação BRI2-2021-007 -v112São Paulo, dezembro de 2021A Brasscom não se responsabiliza por quaisquer usos que venham a ser feitos por terceiros e suas possíveis consequências nas esferas patrimonial, pessoal ou outras de qualquer natureza.Demanda de Talentos em TIC eEstratégia                
+
+--- PÁGINA 2 ---
+Sumário de Tópicos 
+Projeção de demanda de talentos em tecnologia
+Estratégia Desafios e Oportunidades na formação de TIC
+1. Identificação de Afinidades e potencialização por inoculação tecnológica2. Impacto na oferta
+
+
+--- PÁGINA 3 ---
+Estratégia Demandade 797 mil de novos talentos em5 anos
+Projeção de Talentos em TecnologiaR$185,9 BiProdução de Serviços TIC, Software, Nuvem e TI In HouseEm 2021, software, serviços de TIC, nuvem eTI In House tiveram uma produção de R$185,9 Bi.154 milNovas contratações de Software, Serviços TIC, e TI In House em 2021Em 2021 foram gerados 43.624 novos empregos. Até set/2021 foram gerados154.221 novos empregos, representando um crescimento de183,2%em relação à 2020.159 milMédia simples (2021-2025)A projeção é de uma demandade 797 mil talentos entre2021 e 2025, em média são159mil ao ano. As tecnologias maduras,BigData & Analytics, Nuvem e Web Mobile serão as que mais de mandarão novos profissionais nesses5 anos.3,0 xAs remunerações de Serviços TIC, Software e TI In House são pelo menos 3,0 vezes maior que a média salarial nacionalRemuneração média do subsetor de serviços de alto valor agregado é deR$ 5.784e3,2vezes superior ao salário médio nacional de R$ 1.809.53 mil Formandos em TIC237 milFormandos em TCEM
+28,8% Taxa média ponderada de evasão em TCEM
+A oferta atual de 53 mil formandos em TIC não supre a demanda estimada de159 mil talentos por ano. A forte demanda de talentos justifica a necessidade do desenvolvimento de uma estratégia capaz depotencializar a oferta de talentos.A estratégia ∑𝑻𝑪𝑬𝑴 representa a somatória dos cursos de Tecnologia, Ciências, Engenharia eMatemática, que mediante análise de Afinidade e Inoculação Tecnológica potencializa a oferta de237mil formandos em TCEM. Afinidade é a característica das grades curriculares ofertadas na formação emTCEM, que têm superposição com tecnologia.A Inoculação tecnológica consiste na oferta de disciplinas eletivas que capacitem os alunos nas tecnologias em alta demanda pelo setor de TIC. A taxa média ponderada de evasão em TCEM, de28,8%é menor que a taxa de evasão da formação emTIC, que é de32,0%, o que potencializa a empregabilidade dos formando sem TCEM.talentos por anoAfinidade
+Inoculação Tecnológica
+
+
+--- PÁGINA 4 ---
+Produção e Mercado de Trabalho em Software, Serviços de TIC e TI In House
+
+--- PÁGINA 5 ---
+R$186 Bi de produção e 1,2 milhão de empregos em 2021Software, Serviços de TIC e TI In House 
+Cotação R$/US$ 5,40 (2021)Var. cambial +4,7% (2020-2021)Var. cambial +30,71% (2019-2020)Tecnologias Digitais nas empresas com outros objetos sociais
+SoftwareTI In House
+Notas: ¹O crescimento do setor de Software está ligado à variação composta dos anos de pandemia² Houve uma mudança metodológica do cálculo dos empregos pelas mudanças da estrutura dos dados do Novo Caged disponível nesse link, essa mudança impactou o cálculo da produção do TI In House que em termos de empregos novos o valor foi maior que o esperado.FONTES: Brasscom, ABINEE, Bacen, IDC, Conexis Brasil Digital, Relatórios Financeiros das Estatais, RAIS e Caged.
+Serviços de TICR$ 69,7+ 16,5%0,8%643 mil+ 78 milProduçãoSetorial(R$/US$)Crescimento nominal(2019-2020)Proporçãodo PIBEmpregos(saldo 2020)R$ 39,8+ 39,7%¹0,5%138 mil+ 28 milR$ 53,0²+ 6,4%0,6%473 mil+ 21 mil
+ProduçãoSetorial(R$ Bilhões)Crescimento nominal(2020-2021)Proporçãodo PIBEmpregos(saldo 2021)
+NuvemR$ 23,5+ 41,7%0,3%Os empregos de nuvem estão dispersos em Software e Serviços
+
+--- PÁGINA 6 ---
+1.100.468 1.254.689 Evolução dos Empregos no TI In House, Software e Serviços em 2021
+FONTES: Brasscom, RAIS e Caged.
+Os setores TI In House, Software e Serviços gerou +154 mil empregosVar. 2019 x 2020🡱52.015🡱5,0%Var. 2020 x 2021🡱14,0%🡱154.221 
+
+--- PÁGINA 7 ---
+As remunerações oferecidas pelos setores são pelo menos 3,0 maior que a média nacionalDados de dezembro/2021Comparação da remuneração média com salários médios setoriais e Nacional
+Notas: A remuneração inclui benefícios comumente oferecidos no setor. TI In House tem a mesma remuneração se não maior que serviços de alto valor agregado. Serviços de alto valor agregado referem-se a atividades de desenvolvimento de programas de computadores sob encomenda; à consultoria em tecnologia da informação; ao suporte técnico, manutenção e outros serviços de tecnologia da informação; e aos serviços de portais, provedores de conteúdo e outros serviços de informação na internet. Obs.:  Serviços de implantação referem-se à prestação de serviços de planta externa, fibra ótica e instalação de cabos coaxiais e Telecom refere-se às empresas de prestação de serviços de telecomunicações e infraestrutura de telecomunicações (por fio, por micro-ondas e por satélite).Fonte:Brasscom, IBGE, RAIS, CAGED e Novo CagedRemuneração média do subsetor de Software é a maior dentre as pesquisadas, e 3,7 vezes superior ao salário médio nacional.Salário MédioRemuneração🡡21,3%🡡2,3%🡳7,0%🡡10,4%Variação2020 - 2021
+2,5 | R$ 5.421 2,5 | R$ 4.5211,0 | R$ 4.157 R$ 1.809 R$5.784  |  3,2 vezesR$5.336  |  3,0 vezes SoftwareServiços alto valor agregadoServiços de TICMédia NacionalR$6.722  |  3,7 vezes
+
+--- PÁGINA 8 ---
+São Paulo concentra43% dos empregos em tecnologia
+Fonte: Brasscom, RAIS, CAGED, Novo CAGED 43,2%SP339.945(🡱17,7%)16,8%MG e RJ132.379(🡱13,7%)19,8%Região Sul(🡱17,7%)156.03211,0%DF, BA, PE e CE(🡱13,4%)86.4556,4%GO, ES, MT, MS, PB, AM(🡱13,4%)50.4832,8%Demais Estados(🡱6,4%)22.171Software e ServiçosTI In House16,0%MG e RJ72,200(🡱10,6%)45,1%SP214.871(🡱11,5%)21,4%Região Sul95.520(🡱8,2%)10,3%DF, BA, PE e CE48.913(🡱9,0%)1,9%Demais Estados8.971(🡱10,7%)5,3%GO, ES, MT, MS, PB, AM25.043(🡱8,0%)
+
+--- PÁGINA 9 ---
+Projeção de demanda de talentos emSoftware, Serviços de TIC e TI In House
+
+--- PÁGINA 10 ---
+Projeção 2019 vs Realizado ▸ No Estudo Brasscom – Formação Educacional e Empregabilidade emTIC em 2019, apresentamos uma projeção de 420.351 profissionais dos setores software, serviços e TI InHouse entre 2019 e 2024.
+▸Analisando os saldos de contratações realizados em 2019 (+36.319) e 2020(+43.624) é possível verificar uma diferença de 10,0% para 2019 e -6,9%para 2020. Apenas em 2020 os empregos realizados foram inferiores à projeção▸Para 2021 a Brasscom havia projetado56.693 novos empregos, até setembro o valor observado de novas contratações foi de 123.544, ultrapassando em 66.851 novos trabalhos. Em 2021 o número reportado de contratações pelo governo teve uma evolução exponencial.Fonte: Brasscom, IDC, RAIS, CAGED, Novo CAGED 
+Valores projetados no Estudo de 2019
+Projeção anterior foi de 420 mil profissionais demandados entre 2019-2024.Em 2021 observamos uma evolução exponencial das contratações dos setores.Contratações realizado acumuladas
+Houve uma aceleração de contratações durante a pandemia de Covid-19 impulsionada pelo avanço das tecnologias e da transformação digital das empresas
+
+--- PÁGINA 11 ---
+1171,0% 87.66070,1% 93.02971,4% 110.34972,1% 129.29372,5% 150.01529,0% 35.84329,9% 39.73628,6% 44.12227,9% 50.03327,5% 56.925123.504 132.765 154.470 179.327 206.940 
+2021 2022 2023 2024 2025🡡227 mil🡡570 mil28,4% 71,6%
+Demandade novos talentos em tecnologia em 5 anos
+Nota: ¹ TI In House tem a mesma remuneração se não maior que serviços de alto valor agregado. ² Essa projeção foi publicada em dezembro de 2021 com a análise dos dados de emprego até setembro de 2021. 
+As novas contratações até dezembro de 2021 foram de 154.221, superando em 24,8% a projeção publicada de 123.504 para 2021. Fontes: Brasscom, Bacen, IDC,Relatórios Financeiros das Estatais, RAIS e Caged, Novo Caged, Censo do Ensino Superior (INEP, 2019)
+Demanda total de 797 mil, com uma média simples de159 mil empregos por ano.
+A remuneração média de Software e Serviços de TIC é deR$ 5.548sendo3,1 vezes maior que o salário médio nacional(em 2021-12)A remuneração média de TI In House¹ é de R$ 5.784sendo3,2 vezes maior que o salário médio nacional (em 2021-12)
+Crescimento exponencia l797 mil
+
+--- PÁGINA 12 ---
+Nuvem e Big Data apresentam os maiores montantes de investimentos em 4 anos(R$ bilhões)R$ 616,9 bi9,3% a.a. Mobilidade e ConectividadeMobile, Dados e Banda Larga RobóticaR$ 36,5 bi | 0,4% a.a.Redes SociaisR$ 38,7 bi | 15% a.a.Realidade VirtualR$ 3,2 bi | 6% a.a.Impressão 3DR$ 0,8 bi | 14% a.a.BlockchainR$ 1,6 bi | 36% a.a.
+Tecnologias de Transformação Digital 
+Taxa de câmbio: R$/US$ 5,40 (2021)Fontes: Brasscom, IDC (Black Book Q4 2021, Black Book 3ª Plataforma, 2021 H1)Serviços de TelecomHardwareServiços41,5%25,1%6,6%SoftwareNuvemR$ 181,8 bi | 24% a.a.
+Segurança da InformaçãoR$ 46,7 bi | 10% a.a.Inteligência ArtificialR$ 49,7 bi | 18% a.a.Big Data & AnalyticsR$ 94,6 bi | 12% a.a.Internet das Coisas R$ 56,9 bi | 27% a.a.26,8%
+R$ 510,5 bi17,3% a.a.
+
+--- PÁGINA 13 ---
+147.231 | 26,1%94.701 | 16,8%92.426 | 16,4%77.847 | 13,8%72.209 | 12,8%35.686 | 6,3%29.053 | 5,2%5.765 | 1,0%4.476 | 0,8%2.663 | 0,5%1.501 | 0,3%
+AsTecnologias Maduras vão ser as principais geradoras de empregos em 5 anos
+Fontes: Brasscom, World Economic Fórum (Future of Jobs - 2021), ABES (Mercado Brasileiro de software – Panorama e Tendências – 2021), Bacen, IDC, Relatórios Financeiros das Estatais, RAIS, Caged e Novo Caged.797 mil empregos entre 2021-2025NuvemInternet das CoisasBig Data & AnalyticsSegurança da InformaçãoInteligência ArtificialRobóticaRealidade VirtualRedes SociaisImpressão 3DBlockchainWeb Mobile e outrasTecnologias madurasTecnologias emergentesTecnologias de nicho
+Tecnologias563.558 | 70,7%
+Administrativo 138.282 17,4%Nível Técnico95.166 11,9%
+
+--- PÁGINA 14 ---
+Desafio de formação em TIC e introdução da estratégia 
+Dezembro 20211,2 milhãoEmpregos em software, serviços de TI e TI In HouseAté 2025 1,9 milhãoTotal de empregos em software, serviços e TI In House 797 mil Novos empregos entre 2021 e 2025EstratégiaInoculação tecnológica nos cursos de Ciências, Engenharia e Matemática para aumento da oferta de profissionais 
+A oferta de 53 mil formandos ao ano é insuficiente para atender os 159 mil profissionais demandados ao ano até 2025
+Demanda159 milProfissionais demandados média simples ao ano (2021-2025)Oferta Potencial237 milFormados ao ano em ∑𝑇𝐶𝐸𝑀 Fontes: Brasscom, Bacen, IDC, Relatórios Financeiros das Estatais, RAIS e Caged, Novo Caged, Censo do Ensino Superior (INEP, 2019)
+Oferta 53 mil Formados ao ano com perfil tecnológico no Ensino SuperiorDemanda159 milProfissionais demanda dos média simples ao ano (2021-2025)R$ 7,0 Bi de massa salarial paga 
+
+--- PÁGINA 15 ---
+Estratégia Identificação de Afinidade e Inoculação Tecnológica
+
+
+--- PÁGINA 16 ---
+Terminologia STEM, sigla TCEM e Estratégia 
+Fontes: Brasscom, CRS Report: Science, Technology, Engineering, and Mathematics (STEM) Education: A Primer (https://sgp.fas.org/crs/misc/R42642.pdf), WEF (https://www.weforum.org/agenda/2021/10/stem-degrees-most-valuable/), McKinsey (https://www.mckinsey.com/careers/stem-gems), STEM significa o conjunto das formações acadêmicas e profissionais em ciências, tecnologia, engenharia e matemática.A sigla surgiu no final da década de 1990, sendo utilizada por educadores e agências governamentais nos Estados Unidos, tal como, a National Science Foundations(NSF). STEMA NSF financia pesquisas em ciências básicas, engenharia, bem como, em psicologia e ciências sociais. A ampliação do financiamento para outras áreas de pesquisas deu origem a outras siglas, tais como, STEAM, que incorpora Artes. 
+Ambas são usadas em publicações e por organizações, tais como o World Economic Forum e a McKinsey.STEAM Adotamos a sigla TCEM, em português, dando ênfase a tecnologia como fator crítico para a transformação digital, significando: Tecnologia, Ciências, Engenharia e Matemática.A forte demanda de talentos justifica a necessidade do desenvolvimento de uma estratégia capaz de potencializar a oferta de talentos.Essa estratégia é denominada ∑𝑻𝑪𝑬𝑴 . Sigma é a letra grega que significa a adição de todos os termos de uma proposição matemática. 
+Assim sendo, ∑𝑻𝑪𝑬𝑴representa a somatória dos cursos de Tecnologia, Ciências, Engenharia e Matemática.
+
+
+--- PÁGINA 17 ---
+Afinidade e Inoculação Tecnológica
+Í𝒏𝒅𝒊𝒄𝒆 𝒅𝒆 𝒂𝒇𝒊𝒏𝒊𝒅𝒂𝒅𝒆 = ∑𝑁ú𝑚𝑒𝑟𝑜 𝑑𝑒 𝑔𝑟𝑎𝑑𝑒𝑠 𝑐𝑢𝑟𝑟𝑖𝑐𝑢𝑙𝑎𝑟𝑒𝑠 × 𝑃𝑒𝑠𝑜 𝑐𝑜𝑟𝑟𝑒𝑠𝑝𝑜𝑛𝑑𝑒𝑛𝑡𝑒 𝑇𝑜𝑡𝑎𝑙 𝑑𝑒 𝑔𝑟𝑎𝑑𝑒𝑠 𝑐𝑢𝑟𝑟𝑖𝑐𝑢𝑙𝑎𝑟𝑒𝑠 𝑑𝑜𝑠 𝑐𝑢𝑟𝑠𝑜𝑠
+Desenvolvimentode Software Programação Lógica Algoritmo e Estatística e Álgebra Linear Afinidade é a característica das grades curriculares ofertadas pelas instituições de ensino que oferecem formação em TCEM, que têm superposição com tecnologia.A Brasscom desenvolveu um Índice de Afinidade (de 0 a 5) para avaliar o grau de Afinidade entre as grades curriculares ofertadas e a demanda de talentos em programação.Foram analisadas 406 grades curriculares. Afinidade A inoculação tecnológica é uma abordagem para potencializar a empregabilidade dos egressos das formações em TCEM no setor de tecnologia. Consiste na oferta de disciplinas eletivas que capacitem os alunos nas tecnologias em alta demanda pelo setor de TIC.O grau de inoculação é inversamente proporcional à afinidade, ou seja, quanto menor a afinidade, maior o grau de inoculação tecnológica.Inoculação Tecnológica
+A Inoculação Tecnológica pode ser usada para outras áreas de conhecimento, tais como, inteligência artificial, nuvem e segurança da informação
+
+--- PÁGINA 18 ---
+A Afinidade pode ser aferida em relação com a principal tecnologia almejada na formação, tais como, Desenvolvimento Multiplataforma (Web e Mobile) ou Big Data & Analytics
+Nenhuma Afinidade
+Desenvolvimento Multiplataforma (Web e Mobile)
+Lógica e Algoritmo ouEstatística e Álgebra Linear
+Desenvolvimentode Software 
+Programação
+Lógica e Algoritmo eEstatística e Álgebra Linear 
+Big Data & Analytics
+Lógica e Algoritmo ouEstatística e Álgebra Linear
+Linguagens de tratamento de dados (R e Python)
+Programação
+Lógica e Algoritmo eEstatística e Álgebra Linear 
+Nenhuma AfinidadeNota:  (1) A presença das  disciplinas de Lógica e Algoritmo ou de Estatística e Álgebra Linear já é suficiente para classificar o curso com o peso 1. Para ser classificado com o peso 2, é necessária a presença                     
+simultânea de ambas disciplinas, Lógica e Algoritmo e Estatística e Álgebra Linear.(2) Programação refere-se ao aprendizado de uma linguagem de programação, Desenvolvimento de Software engloba o ensino de metodologias ágeis e de design thinkinge UX
+
+--- PÁGINA 19 ---
+Nota: Programação refere-se ao aprendizado de uma linguagem de programação, Desenvolvimento de Software engloba o ensino de metodologias ágeis e de design thinkinge UX
+Desenvolvimento Multiplataforma(Web e Mobile) 
+Desenvolvimento Multiplataforma(Web e Mobile) 
+Desenvolvimento Multiplataforma (Web e Mobile) Metodologias de desenvolvimento de software
+Desenvolvimento Multiplataforma (Web e Mobile) Metodologias de desenvolvimento de software
+Desenvolvimento Multiplataforma (Web e Mobile) Metodologias de desenvolvimento de software Programação
+Desenvolvimento Multiplataforma (Web e Mobile) Metodologias de desenvolvimento de software Programação
+Desenvolvimento Multiplataforma (Web e Mobile) Metodologias de desenvolvimento de software Programação Estatística e Álgebra Linear ouLógica de programação e Algoritmo 
+Desenvolvimento Multiplataforma (Web e Mobile) Metodologias de desenvolvimento de software Programação Estatística e Álgebra Linear ouLógica de programação e Algoritmo Nenhuma Afinidade
+Desenvolvimento Multiplataforma (Web e Mobile)
+Lógica e Algoritmo ouEstatística e Álgebra Linear
+Desenvolvimentode Software 
+Programação
+Lógica e Algoritmo eEstatística e Álgebra Linear 
+Inoculação Tecnológica para Desenvolvimento Multiplataforma (Web e Mobile)
+Desenvolvimento Multiplataforma (Web e Mobile) Metodologias de desenvolvimento de software ProgramaçãoEstatística e Álgebra Linear eLógica de programação e Algoritmo 
+Desenvolvimento Multiplataforma (Web e Mobile) Metodologias de desenvolvimento de software ProgramaçãoEstatística e Álgebra Linear eLógica de programação e Algoritmo 
+AfinidadeInoculação Tecnológica
+
+
+--- PÁGINA 20 ---
+Big Data e Analytics
+Big Data e Analytics
+Big Data e Analytics Linguagens de tratamento de dados (R e Python)
+Big Data e Analytics Linguagens de tratamento de dados (R e Python)
+Big Data e Analytics Linguagens de tratamento de dados (R e Python) Programação
+Big Data e Analytics Linguagens de tratamento de dados (R e Python) Programação
+Big Data e AnalyticsLinguagens de tratamento de dados (R e Python)Programação Estatística e Álgebra Linear ouLógica de programação e Algoritmo 
+Big Data e AnalyticsLinguagens de tratamento de dados (R e Python)Programação Estatística e Álgebra Linear ouLógica de programação e Algoritmo Nenhuma Afinidade
+Lógica e Algoritmo ouEstatística e Álgebra LinearProgramaçãoLógica e Algoritmo eEstatística e Álgebra Linear Big Data & AnalyticsLinguagens de tratamento de dados (R e Python)
+Inoculação Tecnológica para Big Data & AnalyticsAfinidade
+Inoculação Tecnológica
+Big Data e AnalyticsLinguagens de tratamento de dados (R e Python)Programação Estatística e Álgebra Linear eLógica de programação e Algoritmo 
+Big Data e AnalyticsLinguagens de tratamento de dados (R e Python)Programação Estatística e Álgebra Linear eLógica de programação e Algoritmo 
+
+
+--- PÁGINA 21 ---
+Taxa de Evasão nos Cursos Presenciais em 2019
+Fonte: Brasscom e Censo do Ensino Superior de 2019 - INEP
+28,3%32,0%28,1%24,0%
+TECNOLOGIA CIÊNCIAS ENGENHARIA MATEMÁTICA
+Estratégia Com a taxa média ponderada de evasão emTCEM, de 28,8%, a empregabilidade no setor de TIC é potencializada. Menor evasão em cursos de Matemática, Engenharia e Ciências.
+
+
+--- PÁGINA 22 ---
+Análise e Desenvolvimento de Sistemas16. 119  | 30,6% Sistemas de Informação 8.106  | 15,4%Ciência da Computação6.838  | 13,0%Gestão de Tecnologia da Informação5.745  | 10,9%Redes e Internet4.347  | 8,3%Engenharia da Computação3.115  | 5,9%Outros3.426  | 6,5%Ciência e Tecnologia da Informação2.995  | 5,7%Técnico em eletrônica, mecatrônica e automação1.950  | 3,7%Estratégia               amplia a oferta potencial de talentos com perfil tecnológico
+Nota: os formandos incluem cursos presenciais e a distância de licenciatura, bacharel a do etecnológico Fonte: Brasscom e Censo do Ensino Superior de 2019 - INEP
+Oferta Atual 53 milFormandos ao ano em TICOferta Potencial 237 milFormandos ao ano em TCEMDemanda159 milProfissionais demandados média simples ao ano (2021-2025)
+Demanda 159 milProfissionais demandados média simples ao ano (2021-2025) Cenário atual
+TIC52.64122,2%22%Ciências48.26520,3%20%Engenharia124.9412,6%53%Matemática11.458  |  4,8%TICEstratégia 
+
+
+--- PÁGINA 23 ---
+Cursos analisados e Ranking de Afinidades – TIC75 grades curriculares de TIC analisadas.Nota: a área cinza do gráfico representa o maior peso 5, relativo à oferta das competências de Desenvolvimento Web Mobile Full Stack e Big DataFonte: Brasscom
+Índice geral de afinidade de 3,0
+
+--- PÁGINA 24 ---
+Cursos analisados e Ranking de Afinidades – Engenharia 140 grades curriculares de Engenharia analisadas.Nota: a área cinza do gráfico representa o maior peso 5, relativo à oferta das competências de Desenvolvimento Web Mobile Full Stack e Big DataFonte: Brasscom
+Índice geral de afinidade de 2,2
+
+--- PÁGINA 25 ---
+Cursos analisados e Ranking de Afinidades – Matemática e Ciências 41 grades curriculares de Matemática analisadas.150 grades curriculares de Ciências analisadas.
+Nota: a área cinza do gráfico representa o maior peso 5, relativo à oferta das competências de Desenvolvimento Web Mobile Full Stack e Big DataFonte: Brasscom
+Índice geral de afinidade de 0,7 Índice geral de afinidade de 2,6
+
+--- PÁGINA 26 ---
+Certas formações em Engenharia, Matemática e Ciências têm Afinidade mais alta que algumas formações em TICRanking de Afinidades‣A análise das grades curriculares de TIC evidencia deficiências na Afinidade quando comparadas à certas formações em Engenharia, Matemática eCiências.‣Certas formações em TIC, tais como Análise e Desenvolvimento de Sistemas,Engenharia da Computação, Ciência de Dados e Big Data, Informática, Jogos Digitais e Telecomunicações, apresentam Índices de Afinidade inferiores às Engenharias Aeroespacial e Aeronáutica, Engenharia de Produção eEngenharia Eletro Eletrônica. ‣Certas formações em Matemática, tais como, Matemática aplicada e computacional e Estatística, bem como, em Ciências, a saber, Física computacional, apresentam Índices de Afinidade superior às formações emRedes e Internet, Ciência e Tecnologia da Informação e Segurança daInformação.‣O melhor aproveitamento das grades dessas formações em Engenharia,Matemática e Ciências que possuem Afinidade superior às de TIC tem o potencial de aumentar a empregabilidade dos talentos no setor de TIC.
+Maior afinidade
+Menor afinidade
+Sistemas de InformaçãoSistemas eletrônicos Banco de DadosCiência da ComputaçãoEngenharia de SoftwareEngenharia Aeroespacial e AeronáuticaEngenharia de ProduçãoEngenharia Eletro EletrônicaAnálise e Desenvolvimento de SistemasEngenharia da ComputaçãoCiência de Dados e Big DataInformáticaJogos DigitaisTelecomunicaçõesEngenharia NavalMatemática aplicada e computacionalEstatísticaTécnico em eletrônica, mecatrônica e automação Ciências Matemáticas e da Terra Engenharias Bio-Tech Física computacional Redes e InternetCiência e Tecnologia da Informação Segurança da Informação Astronomia Engenharia FísicaGestão de Tecnologia da InformaçãoDesign digital e web designFonte: Brasscom e Censo do Ensino Superior de 2019 - INEPFormações em TICFormações em Engenharia, Matemática e Ciências
+
+--- PÁGINA 27 ---
+Desafios e Oportunidades na Formação em TIC
+
+--- PÁGINA 28 ---
+Alunos por tipo de situação e faixa etária dos alunos ativos em 2019
+Verifica-se uma atração forte pelo estudo de tecnologia nas populações mais maduras.0,1%6445,9%25.62117,6%76.09914,4%62.33928,1%121.76528,6%123.8575,4%23.2190,0%30 Não InformadoDe 40  a 59 De 30 a 39De 26 a 29De 22 a 25De 19 a 21De 17 a 18De 1 a 16433 mil alunos ativos em TIC no Ensino Superior
+Fonte: Brasscom e Censo do Ensino Superior de 2019 - INEP Cursando 380.93357,1% Formado 52.6417,9% Desvinculado 140.44121,1% Matrícula Trancada 85.75512,9% Transferido 7.2061,1% Falecido 770,0% Alunos ativos433.57465,0%Alunos não ativos233.47935,0%Se essas populações mais maduras já tiverem uma primeira formação educacional, seria mais eficiente que elas fossem atendidas por programas de capacitação.Nos cursos de TIC a proporção de alunos não ativos  de 35,0% é superior que para o Ensino Superior de maneira geral de 30,3%.
+
+--- PÁGINA 29 ---
+Retrato da diversidade de raça e gênero nas formações em TIC em 201923,4% 18,6% 17,2% 13,1% 3,8% 3,3% 1,0% 0,7% 0,4% 0,3% 10,3% 8,0% Branca Parda Negra Asiática Indígena Não Classificado
+6,5%39,0%4,4%23,8%1,1%5,8%0,3%1,4%0,1%0,4%2,3%14,8%BrancaParda Negra Asiática Indígena Não Classificado 12,3 milhões de alunos no Ensino Superior 667 mil de alunos em TIC no Ensino Superior Feminino 6,9 milhões56,1%Feminino98 mil14,8%Masculino568 mil85,2%Masculino5,4 milhões43,9%‣São necessárias ações que visam incentivar o gênero feminino no ensino de tecnologia.Fonte: Brasscom e Censo do Ensino Superior de 2019 - INEP
+‣Enquanto no Ensino Superior a participação do gênero feminino é de 56,1%, nas formações em TIC essa participação é de apenas 14,8%. 
+
+--- PÁGINA 30 ---
+Alunos com Deficiências segundo o censo do Ensino Superior em 201945313,6%23.50148,4%2.88986,4%25.02751,6%
+48.528 alunos no ensino superior com algum tipo de deficiência 3.342 alunos em TIC com algum tipo de deficiência
+Deficiência FísicaBaixa visão Deficiência Auditiva Deficiência Intelectua Cegueira Autismo Surdez Superdotação Aspenger Deficiência Múltipla Rett Transtorno Desintegrativo Surdo cegueira 32,7% 115225,6% 89911,3% 3987,8% 2735,1% 1803,9% 1363,7% 1313,1% 1102,9% 1032,2% 760,7% 240,6% 220,4% 14
+‣Os números de alunos com deficiências são calculados para os alunos ativos, que estão cursando ou são formandos em 2019.‣Considerando todos os cursos no ensino superior, a porcentagem de alunos com deficiência do gênero masculino (51,6%) é superior aquela do gênero feminino (48,4%).‣Como os cursos de TIC são formados majoritariamente por alunos do gênero masculino, a distribuição de alunos com algum tipo de deficiência também é superior para o gênero masculino com 86,4% (2.889 alunos), que para o gênero feminino com 13,6% (453 alunos).‣A caracterização dos tipos de deficiência seguem o layout do censo do Ensino Superior do INEP.‣A deficiência física é o tipo mais presente, sendo 32,7% dos alunos com esta deficiência, seguido da baixa visão com 25,6%; e da deficiência auditiva com 11,3%.Fonte: Brasscom e Censo do Ensino Superior de 2019 - INEP
+
+--- PÁGINA 31 ---
+Este estudo foi elaborado pela equipe de Inteligência e Informação da Brasscom com base em informações obtidas a partir das diversas fontes identificadas e de metodologias próprias. A Brasscom não se responsabiliza por quaisquer usos que venham a ser feitos por terceiros e suas possíveis consequências nas esferas patrimonial, pessoal ou outras de qualquer natureza.
+Sobre a BrasscomABrasscom, Associação das Empresas de Tecnologia da Informação e Comunicação e de TecnologiasDigitais, entidade que congrega algumas das mais dinâmicas e inovadoras empresas de Tecnologia daInformação e Comunicação (TIC) alinhadas com a Era Digital, que prestam serviços de TIC, que desenvolvem e licenciam software, que fabricam e comercializam hardware, ou que prestam serviços telecomunicações, tem como Propósito trabalhar em prol de umBrasil Digital, Conectado e Inovador por meio da propositura e defesa de políticas públicas, com especial enfoque no emprego, na diversidade e a educação, bem como, na inovação. 
+Declaração de Uso
+
+--- PÁGINA 32 ---
+Mariana Oliveira Diretora Executiva  Stephanie Felix Sieber Analista de Inteligência
+Inteligência e InformaçãoEquipe Liderança
+Helena Loiola Persona Especialista em Inteligência Tainá Ferreira de Melo Analista de InteligênciaSergio Paulo Gallindo Presidente Executivo
+Kyem Araújo dos Santos Estagiário de InteligênciaRafael Soares Estagiário de Inteligência
+Identidade Visual Coordenação Luély Vaz Barbosa Analista de Comunicação

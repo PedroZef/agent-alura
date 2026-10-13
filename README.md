@@ -1,105 +1,115 @@
-# 🤖 Alura Agent: Base de Conhecimento RAG com Google Gemini
+# 🤖 Alura Agent: Base de Conhecimento RAG Corporativo com Google Gemini
 
-O **Alura Agent** é um assistente corporativo de Inteligência Artificial baseado na arquitetura **RAG (Retrieval-Augmented Generation)**. O agente permite que colaboradores consultem políticas de Recursos Humanos, manuais de integração técnica, contratos de sigilo, relatórios de mercado e diretrizes internas em linguagem natural, recebendo respostas precisas, fundamentadas e com citação das fontes consultadas.
+O **Alura Agent** é um assistente corporativo de Inteligência Artificial baseado na arquitetura **Agentic RAG (Retrieval-Augmented Generation)**. O agente permite que colaboradores consultem políticas de Recursos Humanos, manuais de integração técnica, contratos de sigilo, relatórios de mercado e diretrizes internas em linguagem natural, recebendo respostas precisas, fundamentadas e com citação das fontes consultadas.
 
 ---
 
 ## 🏗️ Arquitetura da Solução
 
-O sistema integra processamento multiformato de documentos, embeddings vetoriais, recuperação semântica e interface interativa com painel de auditoria:
+A arquitetura do sistema é dividida em dois macroprocessos integrados: **Indexação Offline** e **Consulta em Tempo Real com Roteamento e Refinamento Autônomo**, conforme ilustrado no diagrama oficial do projeto:
 
-```
-                  +-------------------------------------------------------+
-                  |               Pasta de Documentos (data/)             |
-                  |  [PDF] [DOCX] [XLSX] [PPTX] [CSV] [JSON] [HTML] [MD]  |
-                  +-------------------------------------------------------+
-                                              |
-                                              v
-                               +-------------------------------+
-                               |     Módulo de Ingestão        |
-                               |   (modules/ingestion.py)      |
-                               |  - Extração multiformato      |
-                               |  - Chunks com sobreposição    |
-                               |  - Embeddings Gemini          |
-                               +-------------------------------+
-                                              |
-                                              v
-                               +-------------------------------+
-                               |   Banco Vetorial (ChromaDB)   |
-                               |  - Coleção persistente local  |
-                               |  - Metadados de categoria     |
-                               +-------------------------------+
-                                              |
-  Pergunta do Colaborador                     | Top-6 Chunks Relevantes
-           |                                  v
-           v                          +-------------------------------+
- +---------------------+               |     Motor RAG (Gemini)        |
- |  Interface Web      | ------------> |   (modules/rag_engine.py)     |
- |   (Streamlit)       | <------------ |  - Busca vetorial por query   |
- +---------------------+  Resposta +   |  - Prompt com Síntese RAG     |
-           |              Fontes       |  - Fallback resiliente de LLM |
-           v                          +-------------------------------+
- +---------------------+
- | Painel de Feedback  |
- |(feedback_logs.json) |
- +---------------------+
+![Arquitetura RAG - Indexação e Consulta em Tempo Real](docs/RAG.png)
+
+### Fluxograma do Sistema
+
+```mermaid
+flowchart TD
+    subgraph Offline["Processo de Indexação - Offline"]
+        D["📄 Documentos Corporativos\n(data/)"] --> FS["📂 Leitura e Chunking\n(modules/ingestion.py)"]
+        FS --> EM1["🧠 Modelo de Embeddings\n(gemini-embedding-001 em Lotes)"]
+        EM1 --> DB[("🗄️ Banco Vetorial\n(ChromaDB Local)")]
+    end
+
+    subgraph Realtime["Processo de Consulta - Tempo Real"]
+        U["👤 Colaborador\n(Pergunta via Streamlit)"] --> G1["✨ Gemini\n(Roteador de Intenções)"]
+        G1 --> DEC1{"Conhecimento externo\nnecessário?\n(External knowledge helpful?)"}
+        
+        DEC1 -- "Não" --> DIR["💬 Gerar Resposta Direta\n(Saudações, ajuda geral)"]
+        DIR --> FA["📋 Resposta Final"]
+
+        DEC1 -- "Sim" --> GQ["🔍 Gerar Query(ies) de Busca\n(Generate query(ies))"]
+        GQ --> Q["🔎 Consulta Vetorial"]
+        Q --> EM2["🧠 Embeddings Gemini"]
+        EM2 --> DB
+        DB --> CTX["📑 Contexto Recuperado"]
+        
+        CTX --> G2["✨ Gemini\n(Síntese e Avaliação)"]
+        U -.-> G2
+        
+        G2 --> DEC2{"Requer mais busca?\n(Requires more search?)"}
+        DEC2 -- "Sim" --> GQ
+        DEC2 -- "Não" --> FA
+    end
+
+    FA --> FB["📊 Auditoria e Avaliação\n(feedback_logs.json)"]
 ```
 
-### Principais Pilares da Arquitetura:
-1. **Ingestão Inteligente (`modules/ingestion.py`)**: Extração de texto de documentos PDF, Word, planilhas Excel/CSV, apresentações PowerPoint, Markdown, HTML e JSON. O texto é fatiado em blocos (*chunks*) com sobreposição (*overlap*) para preservar o contexto semântico.
-2. **Indexação Vetorial (`ChromaDB`)**: Cada bloco recebe um embedding gerado pela API Google Gemini (`gemini-embedding-001`) e é armazenado com metadados (arquivo de origem, categoria e índice do chunk).
-3. **Recuperação e Síntese Contextual (`modules/rag_engine.py`)**: A pergunta do usuário é convertida em vetor, os trechos mais relevantes são recuperados (Top-6) e injetados em um prompt contextual. O modelo correlaciona informações distribuídas entre diferentes documentos e mantém proteção anti-alucinação estrita.
-4. **Interface Web com Controles no Navegador (`app.py`)**: Interface conversacional moderna desenvolvida em Streamlit com:
-   * **Métricas de Avaliação em Tempo Real**: Contadores de feedback positivo (👍) e negativo (👎).
-   * **Limpar Histórico do Chat**: Botão na barra lateral para resetar a conversa da sessão atual.
-   * **Ocultar Mensagens no Navegador**: Interruptor na barra lateral para esconder ou exibir o histórico de mensagens sem apagar a sessão.
-   * **Rodapé de Autoria**: Assinatura `@2026 - Pedro Zeferino da Silva.` presente na barra lateral e fixada no rodapé da página.
+---
+
+### Detalhamento dos Componentes da Arquitetura
+
+#### 1. Processo de Indexação - Offline (`modules/ingestion.py`)
+* **Extração Multiformato**: Suporta a leitura de documentos em PDF (`PyPDF`), Word (`python-docx`), planilhas Excel (`openpyxl`/`pandas`), slides PowerPoint (`python-pptx`), HTML (`BeautifulSoup`), Markdown e texto simples.
+* **Chunking Semântico**: Divisão do texto em blocos de 700 caracteres com sobreposição de 100 caracteres (*overlap*), preservando o contexto entre parágrafos consecutivos.
+* **Embeddings em Lote (Batching)**: Geração de vetores através da API do Gemini (`gemini-embedding-001`) enviando lotes de 16 blocos por requisição com controle de taxa (*backoff* exponencial), eliminando bloqueios por taxa de requisições (429).
+* **Persistência Vetorial (`ChromaDB`)**: Armazenamento local dos vetores acompanhados de metadados como nome do arquivo, categoria e índice do bloco.
+
+#### 2. Processo de Consulta - Tempo Real (`modules/rag_engine.py`)
+* **Decisão de Conhecimento Externo (`External knowledge helpful?`)**: Antes de consultar a base vetorial, o Gemini avalia se a mensagem do usuário realmente demanda pesquisa documental. Saudações, agradecimentos ou dúvidas conceituais gerais são respondidas de imediato sem consumo desnecessário de busca vetorial.
+* **Geração de Queries Otimizadas (`Generate query(ies)`)**: O modelo reformula a intenção do usuário em queries semânticas concisas, focando nas palavras-chave e conceitos técnicos (ex.: expandindo siglas como RH, OCI e SERIS).
+* **Busca e Recuperação Contextual (`ChromaDB`)**: Recuperação dos trechos mais relevantes correspondentes a cada query gerada, com consolidação e desduplicação dos metadados.
+* **Avaliação de Busca Adicional (`Requires more search?`)**: O agente analisa se o contexto recuperado é suficiente para responder integralmente à dúvida do colaborador. Se houver aspectos fundamentais pendentes, o agente executa uma rodada complementar de busca direcionada.
+* **Síntese e Proteção Anti-Alucinação (`Final answer`)**: O Gemini correlaciona os documentos, sintetiza a explicação em linguagem clara e cita formalmente todas as fontes utilizadas. Se a informação estiver ausente, declara expressamente a inexistência na documentação.
 
 ---
 
 ## 🛠️ Tecnologias e Ferramentas Utilizadas
 
-| Componente | Tecnologia | Finalidade |
-| :--- | :--- | :--- |
-| **Linguagem** | Python 3.10+ | Linguagem base do projeto |
-| **Interface de Usuário** | [Streamlit](https://streamlit.io/) | Frontend conversacional web com controles de sessão |
-| **Modelos de Linguagem** | [Google GenAI SDK](https://ai.google.dev/) (Gemini) | Modelos responsivos e resilientes (`gemini-3.1-flash-lite`, `gemini-3.5-flash-lite`, `gemini-3.8-flash`) |
-| **Embeddings** | `gemini-embedding-001` | Conversão de texto e perguntas em representação vetorial (3072 dimensões) |
-| **Banco Vetorial** | [ChromaDB](https://www.trychroma.com/) | Banco de dados vetorial local de alta performance |
-| **Processamento de PDFs** | PyPDF / PyMuPDF | Extração de texto de manuais e códigos de conduta |
-| **Processamento Office** | `python-docx`, `openpyxl`, `python-pptx` | Leitura de documentos Word, Excel e slides PowerPoint |
-| **Manipulação de Dados** | Pandas | Processamento e formatação de planilhas e tabelas |
-| **Configuração** | `python-dotenv` | Gestão segura de credenciais via variáveis de ambiente |
+| Componente                       | Tecnologia                                         | Finalidade                                                                                                     |
+| :------------------------------- | :------------------------------------------------- | :------------------------------------------------------------------------------------------------------------- |
+| **Linguagem**                    | Python 3.10+                                       | Linguagem principal do ecossistema                                                                             |
+| **Interface de Usuário**         | [Streamlit](https://streamlit.io/)                  | Frontend web interativo com controles de sessão e visualização de arquitetura                                  |
+| **Modelos de Linguagem**         | [Google GenAI SDK](https://ai.google.dev/) (Gemini) | Modelos responsivos e resilientes (`gemini-3.1-flash-lite`, `gemini-3.5-flash-lite`, `gemini-3.8-flash`)       |
+| **Embeddings**                   | `gemini-embedding-001`                             | Conversão de blocos textuais e queries de busca em vetores densos (3072 dimensões)                             |
+| **Banco Vetorial**               | [ChromaDB](https://www.trychroma.com/)              | Banco vetorial local persistente de alta velocidade                                                            |
+| **Processamento de PDFs**        | PyPDF / PyMuPDF                                    | Leitura e extração de códigos de conduta e relatórios técnicos em PDF                                          |
+| **Processamento Office**         | `python-docx`, `openpyxl`, `python-pptx`           | Leitura de arquivos Word, planilhas Excel e apresentações PowerPoint                                           |
+| **Manipulação de Dados**         | Pandas                                             | Tabulação e formatação estruturada de relatórios quantitativos                                                 |
+| **Configuração e Ambiente**      | `python-dotenv`                                    | Gerenciamento seguro de credenciais via arquivo `.env`                                                         |
 
 ---
 
-## 📁 Estrutura do Projeto
+## 📁 Estrutura do Repositório
 
 ```text
 agent-alura/
-├── data/                               # Documentos corporativos da base de conhecimento
+├── data/                               # Base de documentos corporativos
 │   ├── rh/
-│   │   └── Codigo-de-Conduta-SERIS.pdf # Código de conduta e diretrizes de RH (PDF)
+│   │   ├── Codigo-de-Conduta-SERIS.pdf # Código de conduta profissional e regras de RH
+│   │   └── intranet_avisos.html        # Comunicados internos e infraestrutura
 │   ├── legal/
 │   │   └── nda_contrato_sigilo.docx    # Acordo de confidencialidade da auFOOD
 │   ├── operacional/
-│   │   ├── onboarding_devs.pptx        # Guia de boas-vindas e stack técnica
-│   │   └── Demanda-de-Talentos-em-TIC.pdf # Relatório setorial completo da Brasscom
+│   │   ├── onboarding_devs.pptx        # Guia de boas-vindas e stack de tecnologia
+│   │   └── Demanda-de-Talentos-em-TIC.txt # Panorama e dados operacionais de talentos
 │   ├── financeiro/
 │   │   ├── analise_brasscom_estrategia.md # Posicionamento estratégico e contratação
-│   │   └── Relatorio_Brasscom_Demanda_Talentos_TIC.xlsx # Dados quantitativos da Brasscom
-│   └── EdTech/
-│       ├── Brasscom_Alura.docx         # Comparativo e sinergia institucional Brasscom x Alura
-│       └── Alura Cursos Online.html    # Catálogo de cursos e trilhas de formação
+│   │   └── Relatorio_Brasscom_Demanda_Talentos_TIC.xlsx # Planilha quantitativa setorial
+│   └── edTech/
+│       ├── Brasscom_Alura.docx         # Sinergia institucional Brasscom x Alura
+│       ├── Demanda-de-Talentos-em-TIC.pdf # Relatório oficial de mercado
+│       └── Alura Cursos Online.html    # Catálogo de formações e cursos
+├── docs/
+│   └── RAG.png                         # Diagrama da arquitetura do agente (Offline e Realtime)
 ├── modules/
-│   ├── ingestion.py                    # Script de extração, chunking e indexação no ChromaDB
-│   └── rag_engine.py                   # Mecanismo de busca vetorial e geração com Gemini
-├── app.py                              # Interface gráfica Streamlit com controles de histórico
-├── chroma_db/                          # Diretório de persistência do banco vetorial ChromaDB
-├── feedback_logs.json                  # Armazenamento em JSON de avaliações (Positivo/Negativo)
-├── requirements.txt                    # Dependências do projeto
-├── .env                                # Chaves de API (ignorado pelo Git)
-├── .gitignore                          # Arquivos e diretórios ignorados pelo controle de versão
+│   ├── ingestion.py                    # Ingestão em lote e indexação resiliente no ChromaDB
+│   └── rag_engine.py                   # Motor Agentic RAG com roteamento, refinamento e síntese
+├── app.py                              # Interface Streamlit com painel de avaliação e visualizador
+├── chroma_db/                          # Base de dados vetorial ChromaDB persistida localmente
+├── feedback_logs.json                  # Registro de auditoria das avaliações dos usuários (👍/👎)
+├── requirements.txt                    # Lista de dependências do ambiente Python
+├── .env                                # Chave da API do Google Gemini (ignorado no Git)
+├── .gitignore                          # Regras de exclusão do Git
 ├── LICENSE                             # Licença MIT
 └── README.md                           # Documentação completa do projeto
 ```
@@ -109,16 +119,22 @@ agent-alura/
 ## 🚀 Instruções de Instalação e Execução
 
 ### Pré-requisitos
+
 * Python 3.10 ou superior instalado.
 * Chave de API do Google Gemini ([Google AI Studio](https://aistudio.google.com/)).
 
 ### 1. Clonar o Repositório
+
 ```bash
 git clone https://github.com/PedroZef/agent-alura.git
 cd agent-alura
 ```
 
 ### 2. Criar e Ativar o Ambiente Virtual
+
+> [!TIP]
+> Ativar o ambiente virtual garante que os comandos `pip` e `python` apontem para os binários corretos, evitando mensagens como `'pip' não é reconhecido como um comando interno ou externo`.
+
 No Windows (PowerShell):
 ```powershell
 python -m venv venv
@@ -132,44 +148,56 @@ source venv/bin/activate
 ```
 
 ### 3. Instalar Dependências
+
+Com o ambiente ativado:
 ```bash
 pip install -r requirements.txt
 ```
+*(Caso não deseje ativar o ambiente, utilize `.\venv\Scripts\pip.exe install -r requirements.txt` no Windows).*
 
-### 4. Configurar Variáveis de Ambiente
-Crie um arquivo `.env` na raiz do projeto com sua chave de API:
+### 4. Configurar as Credenciais
+
+Crie um arquivo `.env` na raiz do projeto com a sua chave de API:
 ```env
 GOOGLE_API_KEY=sua_chave_gemini_aqui
 ```
 
 ### 5. Executar a Ingestão dos Documentos
-Para indexar todos os documentos da pasta `data/` dentro do ChromaDB:
+
+Para indexar todos os documentos corporativos na pasta `data/` com processamento em lotes otimizado:
 ```bash
 python modules/ingestion.py
 ```
+*(Ou `.\venv\Scripts\python.exe modules/ingestion.py` no Windows).*
 
 ### 6. Iniciar a Aplicação Web
+
+Execute a interface gráfica Streamlit:
 ```bash
 streamlit run app.py
 ```
-Acesse o navegador no endereço indicado (normalmente `http://localhost:8501`).
+*(Ou `.\venv\Scripts\streamlit.exe run app.py` no Windows).*
+
+Acesse o endereço exibido no terminal (geralmente `http://localhost:8501`).
 
 ---
 
-## 💡 Exemplos de Perguntas e Respostas Geradas pelo Agente
+## 💡 Exemplos de Consultas Reais Testadas
 
-Abaixo estão exemplos reais testados no assistente demonstrando respostas mono-documentais, cruzamentos multidocumentais e tratamento anti-alucinação:
+Abaixo constam exemplos reais de interação validados no assistente:
 
-### Exemplo 1: Dúvida sobre Código de Conduta e RH (Fonte: PDF)
+### Exemplo 1: Código de Conduta e RH (Fonte: PDF)
 * **Pergunta do Colaborador:**
   > *"O que o código de conduta diz sobre conflito de interesses e atividades paralelas?"*
+* **Fluxo Executado:**
+  * **Conhecimento Externo Necessário:** Sim
+  * **Queries Geradas:** `código de conduta conflito de interesses`, `política de atividades paralelas emprego secundário`
+  * **Fontes:** `Codigo-de-Conduta-SERIS.pdf (rh)`
 * **Resposta do Agente:**
-  > De acordo com o Código de Conduta da SERIS, o documento estabelece as seguintes diretrizes sobre conflitos de interesse:
-  > - **Objetivo:** O Código visa evitar conflitos entre os anseios individuais dos colaboradores e os objetivos empresariais da SERIS.
-  > - **Atividades paralelas:** Não é permitido aceitar cargos ou funções em outras empresas ou entidades em horários conflitantes com o expediente na SERIS. Exceções são admitidas apenas em casos especiais, com registro no RH.
-  > - **Procedimento em caso de dúvida:** O colaborador deve consultar sua liderança imediata ou a área de Recursos Humanos.
-  >
-  > 📚 **Fontes consultadas:** `Codigo-de-Conduta-SERIS.pdf (rh)`
+  > O Código de Conduta da SERIS estabelece orientações claras para assegurar que os interesses pessoais não entrem em conflito com os objetivos da empresa:
+  > - **Atividades paralelas:** Não é permitido aceitar cargos ou funções em outras empresas ou entidades em horários conflitantes com o expediente na SERIS. Situações excepcionais devem ser registradas e avaliadas pelo RH.
+  > - **Atividades em nome da empresa:** Qualquer atividade exercida utilizando o nome ou instalações da empresa requer aprovação prévia do Gerente Geral.
+  > - **Prevenção e Dúvidas:** Em caso de dúvida sobre a existência de conflito de interesses, o colaborador deve consultar sua liderança direta ou a área de Recursos Humanos.
 
 ---
 
@@ -177,53 +205,31 @@ Abaixo estão exemplos reais testados no assistente demonstrando respostas mono-
 * **Pergunta do Colaborador:**
   > *"Quais ativos de tecnologia e dados o colaborador do auFOOD é obrigado a manter em sigilo absoluto?"*
 * **Resposta do Agente:**
-  > De acordo com o Contrato de Confidencialidade (NDA) do auFOOD, todos os colaboradores, incluindo desenvolvedores e engenheiros de dados, comprometem-se a manter sigilo absoluto sobre:
+  > De acordo com o Contrato de Confidencialidade (NDA) do auFOOD, todos os colaboradores comprometem-se a manter sigilo absoluto sobre:
   > 1. Os algoritmos de recomendação do auFOOD;
   > 2. A estrutura do banco de dados vetorial;
   > 3. Os relatórios estratégicos da Brasscom utilizados internamente.
   > 
-  > Além disso, o documento estipula que o vazamento de informações da arquitetura na nuvem (OCI) resultará em rescisão imediata do contrato.
-  >
+  > O vazamento de informações da arquitetura em nuvem (OCI) acarreta rescisão contratual imediata.
+  > 
   > 📚 **Fontes consultadas:** `nda_contrato_sigilo.docx (legal)`
 
 ---
 
-### Exemplo 3: EdTech e Formação em Inteligência Artificial (Fontes: DOCX, PPTX e Markdown)
-* **Pergunta do Colaborador:**
-  > *"De que maneira a Alura prepara profissionais para atuar nas áreas de Inteligência Artificial e Ciência de Dados e como isso se conecta à nossa empresa?"*
-* **Resposta do Agente:**
-  > A Alura atua como uma escola online focada na capacitação prática para carreiras em tecnologia, oferecendo cursos e trilhas dedicadas especificamente às áreas de **Inteligência Artificial, Ciência de Dados, Programação e Inovação** (`Brasscom_Alura.docx`).
-  > 
-  > Para a **auFOOD**, essa atuação é estratégica:
-  > - **Alinhamento com a Stack de IA:** Nossos times utilizam ferramentas modernas de Inteligência Artificial, como **LangChain e Google Gemini** (`onboarding_devs.pptx`), exigindo conhecimento prático em engenharia de dados e LLMs.
-  > - **Desenvolvimento Interno de Talentos:** A capacitação contínua via Alura viabiliza a diretriz da auFOOD de treinar desenvolvedores juniores e plenos em tecnologias full-stack e IA, mitigando os custos de contratação no mercado e superando o apagão de talentos de TIC (`analise_brasscom_estrategia.md`).
-  >
-  > 📚 **Fontes consultadas:**
-  > - `Brasscom_Alura.docx (EdTech)`
-  > - `onboarding_devs.pptx (operacional)`
-  > - `analise_brasscom_estrategia.md (financeiro)`
-
----
-
-### Exemplo 4: Cruzamento Multidocumental Complexo (Estratégia + Mercado + Capacitação)
+### Exemplo 3: Cruzamento Multidocumental Complexo (Estratégia + Mercado + Capacitação)
 * **Pergunta do Colaborador:**
   > *"Com base no apagão de talentos de TIC e na meta de formar desenvolvedores em casa, de que forma as soluções da Alura auxiliam a auFOOD a superar esse déficit?"*
 * **Resposta do Agente:**
-  > Para superar o déficit de talentos projetado pela Brasscom e apoiar a nova estratégia de contratação da auFOOD, a capacitação através da Alura funciona como pilar central de sustentação:
+  > Para contornar o déficit projetado pela Brasscom e viabilizar a estratégia da auFOOD:
+  > 1. **Cenário de Mercado:** Diante da escassez e do encarecimento de profissionais seniores, a auFOOD foca na admissão de talentos juniores e plenos (`analise_brasscom_estrategia.md`).
+  > 2. **Capacitação Alura:** A Alura fornece cursos e trilhas práticas em IA, Engenharia de Dados e Full-Stack (`Brasscom_Alura.docx`), acelerando o domínio das ferramentas corporativas adotadas na stack (`onboarding_devs.pptx`).
+  > 3. **Segurança:** Todo o programa respeita as diretrizes de confidencialidade acordadas no NDA (`nda_contrato_sigilo.docx`).
   > 
-  > 1. **Resposta ao Cenário de Mercado:** O relatório da Brasscom aponta que o Brasil demanda centenas de milhares de profissionais enquanto o ensino superior tradicional forma uma fração dessa necessidade. Diante do encarecimento de seniores, a auFOOD reestruturou seu recrutamento para focar em profissionais juniores e plenos.
-  > 2. **O Papel da Alura na Formação Contínua:** A Alura fornece a infraestrutura educacional necessária para acelerar o desenvolvimento desses colaboradores em programação, dados e inteligência artificial, preparando-os para operar nossa stack (React, Vite, Supabase, LangChain e Gemini).
-  > 3. **Conformidade e Sigilo:** O desenvolvimento profissional ocorre respeitando estritamente o NDA corporativo, garantindo que algoritmos internos e bancos vetoriais permaneçam confidenciais.
-  >
-  > 📚 **Fontes consultadas:**
-  > - `analise_brasscom_estrategia.md (financeiro)`
-  > - `Brasscom_Alura.docx (EdTech)`
-  > - `onboarding_devs.pptx (operacional)`
-  > - `nda_contrato_sigilo.docx (legal)`
+  > 📚 **Fontes consultadas:** `analise_brasscom_estrategia.md (financeiro)`, `Brasscom_Alura.docx (edTech)`, `onboarding_devs.pptx (operacional)`, `nda_contrato_sigilo.docx (legal)`.
 
 ---
 
-### Exemplo 5: Prevenção Anti-Alucinação (Informação Ausente nos Documentos)
+### Exemplo 4: Prevenção Anti-Alucinação (Informação Inexistente)
 * **Pergunta do Colaborador:**
   > *"Qual é a política de reembolso para viagens internacionais de férias?"*
 * **Resposta do Agente:**
@@ -232,20 +238,30 @@ Abaixo estão exemplos reais testados no assistente demonstrando respostas mono-
 
 ---
 
+### Exemplo 5: Saudação / Conversa Informal (Ramo Direto)
+* **Pergunta do Colaborador:**
+  > *"Olá, bom dia! Como você pode me ajudar?"*
+* **Fluxo Executado:**
+  * **Conhecimento Externo Necessário:** Não (respondido diretamente sem acionar o banco vetorial)
+* **Resposta do Agente:**
+  > Olá! Bom dia! Sou o Assistente Virtual Corporativo interno da empresa. Posso te ajudar a consultar diretrizes de RH, código de conduta, contratos de sigilo, stack de tecnologia, onboarding e relatórios setoriais. Como posso ajudar você hoje?
+
+---
+
 ## 🎛️ Recursos da Interface Web (`app.py`)
 
-A interface foi enriquecida com controles para gerenciar a experiência do usuário diretamente no navegador:
-
-* **🗑️ Botão Limpar Histórico do Chat**: Localizado na barra lateral, permite ao usuário resetar instantaneamente todas as mensagens da sessão atual com um clique.
-* **👁️ Interruptor Ocultar Mensagens no Navegador**: Permite ocultar visualmente as perguntas e respostas na tela sem apagar os dados da memória de sessão.
-* **👍 / 👎 Painel de Avaliações**: Cada resposta do assistente conta com botões de avaliação que alimentam as métricas em tempo real e gravam logs de auditoria em `feedback_logs.json`.
-* **🏷️ Rodapé de Autoria**: Identificação `@2026 - Pedro Zeferino da Silva.` presente na barra lateral e fixada na parte inferior da tela principal.
+* **🗺️ Visualizador de Arquitetura no Navegador**: Seção expansível na barra lateral contendo o diagrama completo de arquitetura (`docs/RAG.png`).
+* **⚡ Visualização do Fluxo de Execução**: Cada resposta traz um expansor detalhando a decisão de conhecimento externo, queries semânticas geradas, rodadas de busca e refinamento.
+* **🗑️ Botão Limpar Histórico do Chat**: Localizado na barra lateral, permite ao usuário limpar todas as mensagens da sessão atual com um único clique.
+* **👁️ Ocultar Mensagens no Navegador**: Interruptor para esconder temporariamente as mensagens da tela sem perder os dados da sessão.
+* **👍 / 👎 Painel de Avaliações e Auditoria**: Registro imediato de feedbacks que alimentam as métricas da barra lateral e gravam as interações em [`feedback_logs.json`](feedback_logs.json).
+* **🏷️ Rodapé Institucional**: Assinatura `@2026 - Pedro Zeferino da Silva.` presente na barra lateral e fixada no rodapé da aplicação.
 
 ---
 
 ## 📝 Licença e Direitos
 
 Projeto desenvolvido para fins educacionais e corporativos.  
-Distribuído sob a licença **MIT**. Veja o arquivo [`LICENSE`](LICENSE) para mais detalhes.
+Distribuído sob a licença **MIT**. Consulte o arquivo [`LICENSE`](LICENSE) para mais detalhes.
 
 © 2026 - Pedro Zeferino da Silva.

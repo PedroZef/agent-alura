@@ -1,7 +1,7 @@
-# Interface Web (st.bottom, st.chat_input submit_mode, st.status type="step" exigem >=1.57)
+# Interface Web 
 streamlit>=1.57.0
 
-# Ecossistema LangChain 1.x (create_agent, tools, LangGraph checkpointer)
+# Ecossistema LangChain 1.x 
 langchain>=1.0.0
 langchain-classic>=1.0.0
 langchain-community>=0.4.0

@@ -1,0 +1,94 @@
+{
+  "Codigo-de-Conduta-SERIS.pdf": {
+    "title": "Código de Conduta Profissional - SERIS",
+    "summary": "O documento formaliza os princípios éticos, organizacionais e morais da SERIS (Grupo ISCOT Italia) para orientar as ações de seus integrantes em todos os canteiros do Brasil. Ele define padrões de integridade nas relações internas e externas, combate ao assédio e à corrupção, e diretrizes de governança em Recursos Humanos. Além disso, estipula as regras de convivência, segurança no trabalho e o processo de aplicação de medidas disciplinares.",
+    "key_topics": [
+      "Princípios éticos, missão e política de qualidade",
+      "Conduta individual, conflito de interesses e medidas anticorrupção",
+      "Políticas de Recursos Humanos, diversidade e combate ao assédio",
+      "Proibição de substâncias/armas e aplicação de penalidades disciplinares",
+      "Relações transparentes com clientes, fornecedores e concorrentes"
+    ],
+    "audience": "Todos os colaboradores, líderes, estagiários e administradores da SERIS, devendo ser consultado continuamente para orientar condutas diárias, processos de contratação e interações corporativas.",
+    "is_fallback": false,
+    "_mtime": 1791490364.313104
+  },
+  "Relatorio_Brasscom_Demanda_Talentos_TIC.xlsx": {
+    "title": "Relatório Brasscom: Demanda de Talentos em TIC",
+    "summary": "O documento analisa o panorama macroeconômico, projeções de demanda e perfil de remuneração do setor de TIC no Brasil, destacando o crescimento de áreas como Nuvem e Big Data. Evidencia um déficit anual crítico de aproximadamente 106 mil profissionais entre 2021 e 2025, impulsionado por altas taxas de evasão no ensino superior. Por fim, apresenta a Estratégia Sigma TCEM e índices de afinidade curricular para mitigar o descompasso entre oferta e demanda de talentos através da integração com engenharias e ciências exatas.",
+    "key_topics": [
+      "Macroeconomia e empregabilidade em TIC no Brasil",
+      "Demanda projetada por tecnologias maduras e emergentes",
+      "Déficit de talentos e evasão no ensino superior",
+      "Estratégia Sigma TCEM e índices de afinidade de cursos"
+    ],
+    "audience": "Executivos de tecnologia e RH, formuladores de políticas públicas educacionais, gestores acadêmicos de cursos de exatas e pesquisadores do mercado de trabalho em TIC.",
+    "is_fallback": false,
+    "_mtime": 1791745144.5813406
+  },
+  "analise_brasscom_estrategia.md": {
+    "title": "Análise Estratégica Setorial: Relatório Brasscom e Posicionamento auFOOD",
+    "summary": "O documento avalia o déficit de mais de meio milhão de profissionais de TIC projetado pela Brasscom e define a estratégia de contratação da auFOOD frente ao encarecimento de profissionais sêniores. Como resposta, a empresa reestruturará seu pipeline para focar em talentos juniores e plenos com competências modernas, além de aprovar orçamento para formar desenvolvedores full-stack internamente em até 12 meses.",
+    "key_topics": [
+      "Déficit projetado de talentos em TIC e dados setoriais da Brasscom",
+      "Reestruturação do pipeline de contratação com foco em juniores e plenos",
+      "Critérios de avaliação técnica (JavaScript moderno, PostgreSQL e autonomia)",
+      "Programa de capacitação interna full-stack com Vite e Supabase"
+    ],
+    "audience": "Lideranças de Recursos Humanos, recrutadores técnicos, gestores de engenharia e liderança executiva da auFOOD responsáveis pelo planejamento de contratação, formação técnica e alocação orçamentária.",
+    "is_fallback": false,
+    "_mtime": 1791572662.6280868
+  },
+  "intranet_avisos.html": {
+    "title": "Comunicado Oficial: Migração de Servidores para Oracle Cloud Infrastructure (OCI)",
+    "summary": "Comunicado oficial informando a migração definitiva da infraestrutura da auFOOD para a Oracle Cloud Infrastructure (OCI) no final de semana de 15 de outubro de 2026. Devido à operação, os deploys em ambiente de produção serão congelados a partir de sexta-feira às 18h. O plantão de TI estará disponível no ramal 9999 para suporte em situações de emergência.",
+    "key_topics": [
+      "Migração de infraestrutura para Oracle Cloud Infrastructure (OCI)",
+      "Congelamento (code freeze) de deploys em produção",
+      "Cronograma e janela de manutenção no final de semana",
+      "Contato de emergência com o plantão de TI (ramal 9999)"
+    ],
+    "audience": "Equipe de Engenharia, TI e Desenvolvedores da auFOOD que realizam deploys em produção ou necessitam de suporte durante a janela de manutenção.",
+    "is_fallback": false,
+    "_mtime": 1791644827.8375826
+  },
+  "logs_suporte_ti.json": {
+    "title": "Registro de Chamados de Suporte de TI",
+    "summary": "Este documento consolida os registros e o status de tickets recentes atendidos pela equipe de suporte técnico corporativo. Ele detalha a resolução de um incidente de conectividade com banco de dados em nuvem e acompanha a solicitação de licença de software pendente de aprovação gerencial.",
+    "key_topics": [
+      "Resolução de timeout e liberação de IP em VCN (Oracle Cloud / Supabase)",
+      "Registro de tempo de inatividade em conexão com PostgreSQL",
+      "Solicitação de licença corporativa para GitHub Copilot",
+      "Fluxo de aprovação de acessos e ferramentas por gestores"
+    ],
+    "audience": "Equipes de TI, analistas de suporte, gestores de infraestrutura e desenvolvedores para acompanhamento de incidentes, disponibilidade de serviços e concessão de licenças.",
+    "is_fallback": false,
+    "_mtime": 1791644766.5296578
+  },
+  "nda_contrato_sigilo.docx": {
+    "title": "Contrato de Confidencialidade (NDA) - auFOOD",
+    "summary": "Este documento formaliza as obrigações de sigilo e proteção de dados confidenciais assumidas pelos colaboradores da auFOOD. Ele resguarda ativos intelectuais críticos, incluindo algoritmos de recomendação, estruturas de banco de dados vetorial, relatórios da Brasscom e a arquitetura de nuvem OCI. O descumprimento das cláusulas acarreta a rescisão contratual imediata.",
+    "key_topics": [
+      "Sigilo de algoritmos de recomendação",
+      "Proteção da estrutura de banco de dados vetorial",
+      "Confidencialidade de relatórios estratégicos Brasscom",
+      "Segurança da arquitetura de nuvem (OCI) e penalidades"
+    ],
+    "audience": "Colaboradores da auFOOD, especialmente desenvolvedores e engenheiros de dados, no momento da admissão ou durante o manuseio de dados e sistemas técnicos críticos.",
+    "is_fallback": false,
+    "_mtime": 1791666974.534118
+  },
+  "onboarding_devs.pptx": {
+    "title": "Onboarding do Time de Engenharia auFOOD",
+    "summary": "Este documento apresenta as boas-vindas aos novos integrantes da equipe de Engenharia da auFOOD. Ele introduz a stack tecnológica corporativa adotada nas camadas de front-end, back-end e inteligência artificial. Serve como ponto de partida para orientar os desenvolvedores sobre o ecossistema técnico da organização.",
+    "key_topics": [
+      "Boas-vindas à Engenharia auFOOD",
+      "Front-end: React, Vite e Tailwind CSS",
+      "Back-end e Banco de Dados: PostgreSQL e Supabase",
+      "Inteligência Artificial: LangChain e Gemini"
+    ],
+    "audience": "Novos desenvolvedores e engenheiros de software da auFOOD durante a etapa de onboarding técnico.",
+    "is_fallback": false,
+    "_mtime": 1791667348.971615
+  }
+}
