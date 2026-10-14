@@ -37,8 +37,28 @@ def extract_text_from_file(file_path: str) -> str:
     text = ""
     try:
         if ext == ".pdf":
-            reader = PdfReader(file_path)
-            text = "\n".join([page.extract_text() or "" for page in reader.pages])
+            # Extração aprimorada: tenta PyMuPDF (fitz) para capturar tabelas, legendas de gráficos e blocos estruturados
+            try:
+                import fitz  # PyMuPDF
+                doc = fitz.open(file_path)
+                pdf_parts = []
+                for page_num, page in enumerate(doc, 1):
+                    page_text = page.get_text("text") or ""
+                    # Extrai tabelas nativas caso existam na página (PyMuPDF 1.23+)
+                    try:
+                        tabs = page.find_tables()
+                        if tabs and tabs.tables:
+                            for tab in tabs.tables:
+                                df_tab = tab.to_pandas()
+                                page_text += f"\n--- [Tabela/Gráfico da Página {page_num}] ---\n" + df_tab.to_string(index=False)
+                    except Exception:
+                        pass
+                    if page_text.strip():
+                        pdf_parts.append(f"[Página {page_num}]\n{page_text}")
+                text = "\n\n".join(pdf_parts)
+            except Exception:
+                reader = PdfReader(file_path)
+                text = "\n".join([page.extract_text() or "" for page in reader.pages])
         elif ext == ".docx":
             try:
                 doc = Document(file_path)
@@ -87,16 +107,53 @@ def extract_text_from_file(file_path: str) -> str:
     return text.strip()
 
 
-def chunk_text(text: str, chunk_size: int = 700, overlap: int = 100) -> list[str]:
-    chunks = []
-    start = 0
-    while start < len(text):
-        end = start + chunk_size
-        chunk = text[start:end].strip()
-        if chunk:
-            chunks.append(chunk)
-        start += chunk_size - overlap
-    return chunks
+def chunk_text(text: str, chunk_size: int = 800, overlap: int = 150) -> list[str]:
+    """
+    Divisão semântica recursiva do texto preservando parágrafos, sentenças e tabelas.
+    Prioriza quebras naturais de contexto antes de cortar no limite de caracteres.
+    """
+    if not text or not text.strip():
+        return []
+
+    # Se LangChain estiver disponível, usamos RecursiveCharacterTextSplitter
+    try:
+        from langchain_text_splitters import RecursiveCharacterTextSplitter
+        splitter = RecursiveCharacterTextSplitter(
+            chunk_size=chunk_size,
+            chunk_overlap=overlap,
+            separators=["\n\n", "\n--- ", "\n", ". ", "; ", ", ", " "],
+            keep_separator=True
+        )
+        return splitter.split_text(text)
+    except Exception:
+        # Fallback semântico recursivo puro sem dependência externa
+        separators = ["\n\n", "\n--- ", "\n", ". ", " "]
+        
+        def _split(txt: str, seps: list[str]) -> list[str]:
+            if not seps or len(txt) <= chunk_size:
+                return [txt.strip()] if txt.strip() else []
+            sep = seps[0]
+            parts = txt.split(sep)
+            chunks = []
+            curr = ""
+            for part in parts:
+                candidate = (curr + sep + part).strip() if curr else part.strip()
+                if len(candidate) <= chunk_size:
+                    curr = candidate
+                else:
+                    if curr:
+                        chunks.append(curr)
+                    if len(part) > chunk_size:
+                        sub_chunks = _split(part, seps[1:])
+                        chunks.extend(sub_chunks)
+                        curr = ""
+                    else:
+                        curr = part.strip()
+            if curr:
+                chunks.append(curr)
+            return chunks
+
+        return _split(text, separators)
 
 
 import time

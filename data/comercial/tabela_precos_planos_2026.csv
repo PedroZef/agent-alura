@@ -1,0 +1,6 @@
+Plano,Categoria,Valor_Mensal_BRL,Limite_Usuarios,Suporte,SLA_Disponibilidade,Integracao_Cloud_OCI
+Starter,Pequenas Operações,490.00,10,Horário Comercial (8x5),99.0%,Não
+Professional,Médias Empresas,1850.00,50,Suporte Estendido (12x5),99.5%,OCI Object Storage
+Enterprise auFOOD,Grandes Redes,5900.00,Ilimitado,Suporte Crítico 24x7,99.9%,OCI Compute + FastConnect
+Corporate Alura Tech,Capacitação Corporativa,3400.00,250,Suporte Dedicado,99.8%,OCI VM Always Free + Alura API
+Custom Tailored,Customizado Especial,Sob Consulta,Personalizado,Gerente de Conta 24x7,99.95%,OCI Dedicated Region

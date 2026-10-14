@@ -106,7 +106,31 @@ with st.sidebar.expander("🗺️ Arquitetura do Agente Alura", expanded=False):
             caption="Fluxo do Agente: Decisão, Geração de Queries, Recuperação e Síntese",
         )
     else:
-        st.caption("Imagem não encontrada.")
+        st.info("📌 **Fluxo Agentic RAG (Tempo Real):**")
+        st.markdown(
+            """
+```text
+[👤 Colaborador]
+       │
+       ▼
+[✨ Gemini Roteador & Queries]
+  ├── Não precisa de docs ➔ 💬 Resposta Direta
+  └── Precisa de docs ➔ 🔍 Gera Queries
+                              │
+                              ▼
+                      [🗄️ ChromaDB] (Busca Semântica)
+                              │
+                              ▼
+                      [📑 Contexto Recuperado]
+                              │
+                              ▼
+                      [🤔 Requer mais busca?]
+                        ├── Sim ➔ 🔁 Nova Query Focada
+                        └── Não ➔ 📋 Síntese Final Fundamentada
+```
+            """
+        )
+        st.caption("Documentação técnica e diagrama oficial disponíveis no README.md.")
 
 st.sidebar.markdown("---")
 st.sidebar.subheader("Histórico de Feedback")
@@ -128,13 +152,7 @@ if feedbacks:
 else:
     st.sidebar.info("Nenhuma avaliação registrada ainda.")
 
-st.sidebar.markdown("---")
-st.sidebar.markdown(
-    "<div style='text-align: center; color: #1E88E5; font-size: 0.9rem; font-weight: 500; padding: 6px 0;'>"
-    "@2026 - Pedro Zeferino da Silva."
-    "</div>",
-    unsafe_allow_html=True,
-)
+
 
 # --- CHAT PRINCIPAL ---
 st.title("🤖 Agente Alura")
@@ -199,8 +217,35 @@ else:
                         st.toast("Avaliação negativa registrada!", icon="⚠️")
                         st.rerun()
 
+# --- SUGESTÕES DE PERGUNTAS BASEADAS NOS DOCUMENTOS ---
+with st.expander("💡 Perguntas Recomendadas por Documento (Clique para testar)", expanded=False):
+    st.markdown("Selecione uma dúvida abaixo para testar o entendimento dos arquivos da empresa:")
+    col_q1, col_q2 = st.columns(2)
+    quick_prompt = None
+    with col_q1:
+        if st.button("📊 Preços Enterprise 2026 (CSV)", use_container_width=True):
+            quick_prompt = "Quais são os planos de preços para 2026 e quais os valores mensais e anuais do plano Enterprise?"
+        if st.button("⚖️ Conflito de Interesses (Código de Conduta - PDF)", use_container_width=True):
+            quick_prompt = "O que o código de conduta diz sobre conflito de interesses e atividades paralelas?"
+        if st.button("📈 Déficit de TI e Gráficos Brasscom (PDF)", use_container_width=True):
+            quick_prompt = "Qual é a projeção quantitativa do déficit anual de profissionais de TI segundo os dados e gráficos da Brasscom?"
+        if st.button("🔒 Sigilo e NDA auFOOD (Word - DOCX)", use_container_width=True):
+            quick_prompt = "Quais ativos de tecnologia e dados o colaborador do auFOOD é obrigado a manter sob sigilo absoluto segundo o NDA?"
+    with col_q2:
+        if st.button("💻 Onboarding e Stack Técnica (PowerPoint - PPTX)", use_container_width=True):
+            quick_prompt = "Qual é a stack de tecnologia recomendada no onboarding de desenvolvedores e quais ferramentas usamos?"
+        if st.button("🎓 Parceria Alura e Capacitação (Word/HTML)", use_container_width=True):
+            quick_prompt = "De que forma a parceria da Alura auxilia a suprir a demanda de capacitação técnica dos colaboradores?"
+        if st.button("🏢 Horários e Comunicados Internos (HTML)", use_container_width=True):
+            quick_prompt = "Quais são os horários de funcionamento dos refeitórios e regras de agendamento de salas?"
+        if st.button("🔌 Catálogo de APIs e Endpoints (JSON)", use_container_width=True):
+            quick_prompt = "Quais endpoints e métodos de autenticação estão documentados no catálogo de APIs de integração interna?"
+
 # Entrada de pergunta
-if prompt := st.chat_input("Digite sua dúvida sobre a empresa..."):
+user_input = st.chat_input("Digite sua dúvida sobre a empresa...")
+prompt = quick_prompt if quick_prompt else user_input
+
+if prompt:
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)

@@ -1,0 +1,73 @@
+{
+    "organizacao": "auFOOD & Alura Tech Systems",
+    "versao_catalogo": "2026.2",
+    "ultima_atualizacao": "2026-10-13",
+    "ambiente_padrao": "Oracle Cloud Infrastructure (OCI) - Ashburn & Vinhedo",
+    "politica_governanca_dados": {
+        "seguranca": "mTLS / OAuth2 Bearer Token",
+        "retencao_logs": "90 dias no OCI Object Storage",
+        "classificacao_padrao": "Uso Interno Corporativo"
+    },
+    "servicos": [
+        {
+            "id": "srv-auth-01",
+            "nome": "Identity & Access API",
+            "endpoint_base": "https://auth.aufood.internal/api/v1",
+            "categoria": "Segurança e Identidade",
+            "descricao": "Serviço central de autenticação, emissão de tokens JWT e controle de acesso a sistemas internos.",
+            "protocolo": "REST / HTTPS",
+            "metodos_disponiveis": [
+                "POST /token",
+                "GET /validate",
+                "POST /refresh"
+            ],
+            "sla_garantido": "99.99%",
+            "time_responsavel": "SecOps e Governança de TI",
+            "hospedagem": "OCI Container Engine for Kubernetes (OKE)"
+        },
+        {
+            "id": "srv-orders-02",
+            "nome": "Orders Core Engine",
+            "endpoint_base": "https://orders.aufood.internal/api/v2",
+            "categoria": "Operações e Logística",
+            "descricao": "Processamento de pedidos em tempo real, roteamento logístico e conciliação de entregas.",
+            "protocolo": "REST / gRPC",
+            "metodos_disponiveis": [
+                "GET /orders",
+                "POST /orders/checkout",
+                "PUT /orders/status"
+            ],
+            "sla_garantido": "99.95%",
+            "time_responsavel": "Squad Core Commerce",
+            "hospedagem": "OCI Compute VM Standard.E4.Flex"
+        },
+        {
+            "id": "srv-rag-03",
+            "nome": "Alura Corporate Knowledge RAG API",
+            "endpoint_base": "https://agent.aufood.internal/api/v1",
+            "categoria": "Inteligência Artificial e Conhecimento",
+            "descricao": "Assistente de IA generativa corporativo com busca semântica em base ChromaDB e Google Gemini.",
+            "protocolo": "REST / WebSocket / Streamlit Web",
+            "metodos_disponiveis": [
+                "POST /query",
+                "GET /categories",
+                "POST /feedback"
+            ],
+            "sla_garantido": "99.5%",
+            "time_responsavel": "Data & AI Engineering",
+            "hospedagem": "OCI VM Always Free (Ubuntu Linux)"
+        },
+        {
+            "id": "srv-telemetry-04",
+            "nome": "Data Observability & Auditing API",
+            "endpoint_base": "https://telemetry.aufood.internal/api/v1",
+            "categoria": "Governança e Qualidade",
+            "descricao": "Coleta de métricas de telemetria, logs de auditoria LGPD e integridade de consultas.",
+            "protocolo": "REST / JSON",
+            "metodos_disponiveis": ["POST /events", "GET /metrics/health"],
+            "sla_garantido": "99.9%",
+            "time_responsavel": "Data Governance Team",
+            "hospedagem": "OCI Logging & Object Storage"
+        }
+    ]
+}

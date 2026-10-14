@@ -19,84 +19,126 @@ client = chromadb.PersistentClient(path=CHROMA_DATA_PATH)
 collection = client.get_or_create_collection(name="documentos_empresa")
 
 
+import time
+
 CANDIDATE_MODELS = [
-    "gemini-3.1-flash-lite",
     "gemini-3.5-flash-lite",
+    "gemini-flash-lite-latest",
     "gemini-3.8-flash",
     "gemini-3.5-flash",
+    "gemini-3.1-flash-lite",
     "gemini-flash-latest",
 ]
 
 
-def call_gemini(prompt: str) -> str:
+def call_gemini(prompt: str, max_retries: int = 3) -> str:
     last_err = None
     for model_name in CANDIDATE_MODELS:
-        try:
-            response = genai_client.models.generate_content(
-                model=model_name, contents=prompt
-            )
-            if response and response.text:
-                return response.text.strip()
-        except Exception as e:
-            last_err = e
-            continue
+        for attempt in range(max_retries):
+            try:
+                response = genai_client.models.generate_content(
+                    model=model_name, contents=prompt
+                )
+                if response and response.text:
+                    return response.text.strip()
+            except Exception as e:
+                last_err = e
+                err_str = str(e)
+                # Erros transitórios de taxa limite, quota ou instabilidade de servidor
+                if any(x in err_str for x in ["429", "RESOURCE_EXHAUSTED", "quota", "503", "UNAVAILABLE", "500", "INTERNAL"]):
+                    time.sleep(1.5 * (attempt + 1))
+                    continue
+                else:
+                    # Modelos descontinuados ou 404: avança imediatamente para o próximo modelo candidato
+                    break
     if last_err:
         raise last_err
     return ""
 
 
-def get_query_embedding(query: str) -> list[float]:
-    response = genai_client.models.embed_content(
-        model="gemini-embedding-001",
-        contents=query,
-        config={"task_type": "RETRIEVAL_QUERY"},
-    )
-    return response.embeddings[0].values
+def get_query_embedding(query: str, max_retries: int = 4) -> list[float]:
+    for attempt in range(max_retries):
+        try:
+            response = genai_client.models.embed_content(
+                model="gemini-embedding-001",
+                contents=query,
+                config={"task_type": "RETRIEVAL_QUERY"},
+            )
+            return response.embeddings[0].values
+        except Exception as e:
+            err_str = str(e)
+            if "429" in err_str or "RESOURCE_EXHAUSTED" in err_str or "quota" in err_str.lower():
+                wait_time = (attempt + 1) * 3
+                time.sleep(wait_time)
+            else:
+                if attempt == max_retries - 1:
+                    raise e
+                time.sleep(2)
+    return []
 
 
-def is_external_knowledge_helpful(user_query: str) -> bool:
+import json
+
+
+def route_and_generate_queries(user_query: str) -> tuple[bool, list[str]]:
     """
-    Decisão da arquitetura (docs/RAG.png):
-    Avalia se a mensagem precisa de busca na base documental corporativa.
+    Otimização de Tokens e Latência (1 chamada estruturada via JSON):
+    Unifica a decisão de 'External knowledge helpful?' e a geração de queries semânticas.
+    Reduz em ~50% as chamadas iniciais ao Gemini.
     """
-    prompt = f"""Você é o roteador de intenções de um assistente corporativo interno.
-Analise a mensagem do usuário e determine se ela necessita de consulta à documentação interna da empresa (código de conduta, RH, NDA, regras, capacitação, relatórios, contratos, stack técnica).
-
-Mensagem do usuário: "{user_query}"
+    prompt = f"""Você é o roteador de intenções e gerador de queries de um assistente corporativo interno.
+Analise a mensagem do colaborador e responda ESTRITAMENTE em formato JSON com o seguinte schema:
+{{
+  "needs_external_knowledge": true ou false,
+  "queries": ["query semântica 1", "query semântica 2", "query semântica 3"]
+}}
 
 Regras:
-- Se for apenas saudação ('olá', 'boa tarde'), agradecimento, despedida ou conversa informal, responda: NAO
-- Se solicitar informações sobre a empresa, políticas, diretrizes, códigos, processos ou dados técnicos/financeiros, responda: SIM
+1. "needs_external_knowledge":
+   - false: se for apenas saudação ('olá', 'boa tarde'), agradecimento, despedida ou conversa informal.
+   - true: se for sobre políticas, normas, RH, conduta, contratos, tecnologia, finanças, mercado, cursos ou processos da empresa.
+2. "queries":
+   - Se needs_external_knowledge for false, retorne lista vazia [].
+   - Se for true, gere de 2 a 3 queries concisas e desmembradas. Se a pergunta envolver mais de um tema (ex: Brasscom/apagão de talentos E capacitação/Alura E formação interna/auFOOD), gere queries separadas para cada tema chave (ex: uma focada em 'apagão talentos Brasscom déficit', outra em 'capacitação Alura formação desenvolvedores', outra em 'estratégia auFOOD contratar formar casa').
 
-Responda APENAS com a palavra 'SIM' ou 'NAO'."""
+Mensagem do colaborador: "{user_query}"
+"""
     try:
-        decision = call_gemini(prompt).upper()
-        return "SIM" in decision
+        response_text = call_gemini(prompt)
+        cleaned = response_text.strip()
+        if cleaned.startswith("```json"):
+            cleaned = cleaned[7:]
+        elif cleaned.startswith("```"):
+            cleaned = cleaned[3:]
+        if cleaned.endswith("```"):
+            cleaned = cleaned[:-3]
+        cleaned = cleaned.strip()
+
+        data = json.loads(cleaned)
+        needs_knowledge = bool(data.get("needs_external_knowledge", True))
+        queries = [str(q).strip() for q in data.get("queries", []) if str(q).strip()]
+        if needs_knowledge and not queries:
+            queries = [user_query]
+        return needs_knowledge, queries[:3]
     except Exception:
-        return True
+        # Fallback seguro caso haja erro na formatação do JSON
+        return True, [user_query]
 
 
-def generate_search_queries(user_query: str, missing_aspect: str = "") -> list[str]:
+def generate_refinement_query(user_query: str, missing_aspect: str) -> list[str]:
     """
-    Passo da arquitetura (docs/RAG.png): 'Generate query(ies)'
-    Gera query(ies) otimizadas para busca vetorial no ChromaDB.
+    Gera query de busca focada em aspecto complementar pendente.
     """
-    if missing_aspect:
-        prompt = f"""A pergunta original do colaborador é: "{user_query}"
+    prompt = f"""A pergunta original do colaborador é: "{user_query}"
 Na busca anterior faltaram dados sobre: "{missing_aspect}".
 Gere exatamente 1 query concisa e direta para busca vetorial focada nesse aspecto faltante.
 Responda apenas com o texto da query."""
-    else:
-        prompt = f"""O colaborador fez a seguinte pergunta: "{user_query}"
-Gere 1 ou 2 queries concisas de busca semântica, removendo saudações e focando nas palavras-chave mais relevantes (ex: código de conduta, conflito de interesses, horas de trabalho, etc.).
-Escreva uma query por linha, sem numeração ou marcadores."""
-
     try:
         text = call_gemini(prompt)
-        queries = [q.strip('- *"\t ') for q in text.split("\n") if q.strip()]
-        return queries[:2] if queries else [user_query]
+        q = text.strip('- *"\t \n')
+        return [q] if q else [missing_aspect]
     except Exception:
-        return [user_query]
+        return [missing_aspect]
 
 
 def retrieve_from_chroma(queries: list[str], top_k: int = 4) -> tuple[str, list[str]]:
@@ -110,15 +152,31 @@ def retrieve_from_chroma(queries: list[str], top_k: int = 4) -> tuple[str, list[
     for q in queries:
         try:
             q_emb = get_query_embedding(q)
-            results = collection.query(query_embeddings=[q_emb], n_results=top_k)
-            docs = results.get("documents", [[]])[0]
-            metas = results.get("metadatas", [[]])[0]
-            ids = results.get("ids", [[]])[0]
+            if not q_emb:
+                print(f"Aviso: Não foi possível gerar embedding para a query '{q}'")
+                continue
+
+            # Garante que não pede mais resultados do que o total disponível
+            count = collection.count()
+            if count == 0:
+                print("Aviso: A coleção do ChromaDB está vazia.")
+                return "", []
+
+            effective_top_k = min(top_k, count)
+            results = collection.query(query_embeddings=[q_emb], n_results=effective_top_k)
+
+            docs_list = results.get("documents") or []
+            metas_list = results.get("metadatas") or []
+            ids_list = results.get("ids") or []
+
+            docs = docs_list[0] if docs_list else []
+            metas = metas_list[0] if metas_list else []
+            ids = ids_list[0] if ids_list else []
 
             for doc_id, doc, meta in zip(ids, docs, metas):
                 if doc_id not in seen_ids:
                     seen_ids.add(doc_id)
-                    source_name = f"{meta['source']} ({meta['category']})"
+                    source_name = f"{meta.get('source', 'documento')} ({meta.get('category', 'geral')})"
                     sources.append(source_name)
                     context_parts.append(f"\n--- Documento: {source_name} ---\n{doc}\n")
         except Exception as e:
@@ -172,9 +230,10 @@ def query_rag(user_query: str, top_k: int = 5) -> dict:
         "requires_more_search": False,
     }
 
-    # 1. Decisão: External knowledge helpful?
-    needs_knowledge = is_external_knowledge_helpful(user_query)
+    # 1. Decisão Unificada: External knowledge helpful? + Generate query(ies)
+    needs_knowledge, queries = route_and_generate_queries(user_query)
     workflow_info["needs_external_knowledge"] = needs_knowledge
+    workflow_info["generated_queries"] = list(queries)
 
     if not needs_knowledge:
         direct_prompt = f"""Você é o Assistente Virtual Corporativo interno da empresa.
@@ -188,19 +247,15 @@ Responda de forma cordial, prestativa e profissional à seguinte mensagem do col
             "workflow": workflow_info,
         }
 
-    # 2. Gera queries de busca
-    queries = generate_search_queries(user_query)
-    workflow_info["generated_queries"] = list(queries)
-
-    # 3. Consulta ChromaDB (Rodada 1)
+    # 2. Consulta ChromaDB (Rodada 1)
     context, sources = retrieve_from_chroma(queries, top_k=top_k)
 
-    # 4. Decisão: Requires more search?
+    # 3. Decisão: Requires more search?
     requires_more, missing_topic = check_requires_more_search(user_query, context)
     if requires_more and missing_topic:
         workflow_info["requires_more_search"] = True
         workflow_info["search_rounds"] = 2
-        extra_queries = generate_search_queries(
+        extra_queries = generate_refinement_query(
             user_query, missing_aspect=missing_topic
         )
         workflow_info["generated_queries"].extend(extra_queries)
@@ -218,9 +273,11 @@ Responda de forma cordial, prestativa e profissional à seguinte mensagem do col
     # 5. Síntese final com Gemini
     final_prompt = f"""Você é o Assistente Virtual Corporativo interno da empresa.
 Responda à dúvida do colaborador sintetizando e correlacionando as informações disponíveis no CONTEXTO abaixo.
-Quando a pergunta relacionar mais de um tema ou documento (ex.: estratégia, capacitação, código de conduta, stack técnica), mostre claramente como as informações se complementam.
-Se a informação estiver completamente ausente ou não tiver qualquer base ou menção nos documentos, declare: 'Não encontrei essa informação na documentação interna disponível.'
-Sempre cite ao final os nomes dos documentos utilizados como referência.
+Orientações:
+- Quando a pergunta envolver mais de um tema (ex.: apagão de talentos, estratégia da empresa de formar internamente, soluções da Alura de capacitação), conecte os pontos e explique como os documentos se complementam.
+- Se houver informações relevantes sobre parte dos tópicos no contexto (ex.: dados da Brasscom sobre apagão, estratégia da empresa de formar desenvolvedores em casa, e cursos da Alura), apresente a síntese clara desses pontos com base nos documentos.
+- Somente declare que 'Não encontrei essa informação na documentação interna disponível' se o assunto da pergunta não tiver nenhuma relação ou menção em nenhum documento do contexto.
+- Ao final, mencione formalmente os documentos utilizados como referência.
 
 CONTEXTO:
 {context}
