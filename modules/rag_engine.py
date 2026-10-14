@@ -18,6 +18,10 @@ genai_client = genai.Client(api_key=api_key)
 client = chromadb.PersistentClient(path=CHROMA_DATA_PATH)
 collection = client.get_or_create_collection(name="documentos_empresa")
 
+try:
+    from modules.sources_catalog import get_source_metadata, format_sources_for_prompt
+except ModuleNotFoundError:
+    from sources_catalog import get_source_metadata, format_sources_for_prompt
 
 import time
 
@@ -244,6 +248,7 @@ Responda de forma cordial, prestativa e profissional à seguinte mensagem do col
         return {
             "answer": direct_answer,
             "sources": [],
+            "sources_metadata": [],
             "workflow": workflow_info,
         }
 
@@ -263,12 +268,17 @@ Responda de forma cordial, prestativa e profissional à seguinte mensagem do col
         context += extra_context
         sources = list(dict.fromkeys(sources + extra_sources))
 
+    sources_metadata = [get_source_metadata(s) for s in sources]
+
     if not context.strip():
         return {
             "answer": "Não encontrei essa informação na documentação interna disponível.",
             "sources": [],
+            "sources_metadata": [],
             "workflow": workflow_info,
         }
+
+    formatted_sources_refs = format_sources_for_prompt(sources_metadata)
 
     # 5. Síntese final com Gemini
     final_prompt = f"""Você é o Assistente Virtual Corporativo interno da empresa.
@@ -277,7 +287,10 @@ Orientações:
 - Quando a pergunta envolver mais de um tema (ex.: apagão de talentos, estratégia da empresa de formar internamente, soluções da Alura de capacitação), conecte os pontos e explique como os documentos se complementam.
 - Se houver informações relevantes sobre parte dos tópicos no contexto (ex.: dados da Brasscom sobre apagão, estratégia da empresa de formar desenvolvedores em casa, e cursos da Alura), apresente a síntese clara desses pontos com base nos documentos.
 - Somente declare que 'Não encontrei essa informação na documentação interna disponível' se o assunto da pergunta não tiver nenhuma relação ou menção em nenhum documento do contexto.
-- Ao final, mencione formalmente os documentos utilizados como referência.
+- Ao citar as referências ou ao final da resposta, inclua links Markdown clicáveis [Nome do Documento ou Portal](URL) sempre que houver links disponíveis na lista abaixo, facilitando o acesso direto do colaborador.
+
+DOCUMENTOS E LINKS OFICIAIS DISPONÍVEIS:
+{formatted_sources_refs}
 
 CONTEXTO:
 {context}
@@ -290,5 +303,6 @@ PERGUNTA DO COLABORADOR:
     return {
         "answer": final_answer,
         "sources": sources,
+        "sources_metadata": sources_metadata,
         "workflow": workflow_info,
     }

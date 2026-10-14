@@ -17,7 +17,7 @@ try:
             query_rag,
         )  # pyright: ignore[reportUnknownVariableType]
     except ModuleNotFoundError:
-        from rag_engine import ( # pyright: ignore[reportMissingImports]
+        from rag_engine import (  # pyright: ignore[reportMissingImports]
             query_rag,
         )  # pyright: ignore[reportUnknownVariableType, reportMissingImports]
 except Exception as e:
@@ -26,7 +26,105 @@ except Exception as e:
         return {
             "answer": f"Não foi possível carregar o módulo 'rag_engine': {e}",
             "sources": [],
+            "sources_metadata": [],
+            "workflow": {},
         }  # pyright: ignore[reportUnknownVariableType]
+
+
+try:
+    from modules.sources_catalog import (
+        get_source_metadata,
+        get_file_preview_content,
+    )
+except ModuleNotFoundError:
+    from sources_catalog import (  # pyright: ignore[reportMissingImports]
+        get_source_metadata,
+        get_file_preview_content,
+    )
+
+
+@st.cache_data(show_spinner=False, max_entries=30)
+def get_cached_file_bytes(abs_path: str) -> bytes:
+    if abs_path and os.path.isfile(abs_path):
+        try:
+            with open(abs_path, "rb") as f:
+                return f.read()
+        except Exception:
+            return b""
+    return b""
+
+
+def render_sources(sources=None, sources_metadata=None, key_prefix=""):
+    metas = []
+    if sources_metadata:
+        metas = list(sources_metadata)
+    elif sources:
+        metas = [get_source_metadata(s) for s in sources]
+
+    if not metas:
+        return
+
+    with st.expander(
+        f"📚 Fontes Consultadas & Links Oficiais ({len(metas)})", expanded=False
+    ):
+        for idx, meta in enumerate(metas):
+            title = meta.get("title", meta.get("filename", "Documento"))
+            cat = meta.get("category", "geral")
+            filename = meta.get("filename", "")
+            web_link = meta.get("web_link", "")
+            exists = meta.get("exists", False)
+            abs_path = meta.get("absolute_path")
+            mime_type = meta.get("mime_type", "application/octet-stream")
+
+            st.markdown(f"**{idx + 1}. {title}** (`{filename}`) — *Área: {cat}*")
+
+            col_link, col_download = st.columns([1, 1])
+
+            with col_link:
+                if web_link:
+                    st.markdown(f"🌐 [Acessar Site/Portal Oficial]({web_link})")
+                else:
+                    st.caption("Link externo indisponível")
+
+            with col_download:
+                if exists and abs_path:
+                    file_bytes = get_cached_file_bytes(abs_path)
+                    if file_bytes:
+                        st.download_button(
+                            label=f"📥 Baixar {filename}",
+                            data=file_bytes,
+                            file_name=filename,
+                            mime=mime_type,
+                            key=f"dl_{key_prefix}_{idx}_{filename}",
+                            help=f"Download direto do arquivo {filename}",
+                            use_container_width=True,
+                        )
+                else:
+                    st.caption("Arquivo local não localizado para download")
+
+            if exists and abs_path:
+                with st.expander(
+                    f"👁️ Pré-visualizar dados ({filename})", expanded=False
+                ):
+                    preview_text = get_file_preview_content(abs_path)
+                    if filename.endswith(".csv"):
+                        try:
+                            import pandas as pd
+
+                            df = pd.read_csv(abs_path)
+                            st.dataframe(df.head(10), use_container_width=True)
+                        except Exception:
+                            st.text(preview_text)
+                    elif filename.endswith(".json"):
+                        try:
+                            st.json(json.loads(preview_text))
+                        except Exception:
+                            st.text(preview_text)
+                    else:
+                        st.text(preview_text)
+
+            if idx < len(metas) - 1:
+                st.divider()
 
 
 FEEDBACK_FILE = os.path.join(SCRIPT_DIR, "feedback_logs.json")
@@ -107,8 +205,7 @@ with st.sidebar.expander("🗺️ Arquitetura do Agente Alura", expanded=False):
         )
     else:
         st.info("📌 **Fluxo Agentic RAG (Tempo Real):**")
-        st.markdown(
-            """
+        st.markdown("""
 ```text
 [👤 Colaborador]
        │
@@ -128,8 +225,7 @@ with st.sidebar.expander("🗺️ Arquitetura do Agente Alura", expanded=False):
                         ├── Sim ➔ 🔁 Nova Query Focada
                         └── Não ➔ 📋 Síntese Final Fundamentada
 ```
-            """
-        )
+            """)
         st.caption("Documentação técnica e diagrama oficial disponíveis no README.md.")
 
 st.sidebar.markdown("---")
@@ -151,7 +247,6 @@ if feedbacks:
         st.sidebar.divider()
 else:
     st.sidebar.info("Nenhuma avaliação registrada ainda.")
-
 
 
 # --- CHAT PRINCIPAL ---
@@ -188,10 +283,14 @@ else:
                             "- **Busca Adicional:** Ativada para complementar contexto faltante."
                         )
 
-            if "sources" in msg and msg["sources"]:
-                with st.expander("📚 Fontes consultadas"):
-                    for src in msg["sources"]:
-                        st.write(f"- {src}")
+            if ("sources" in msg and msg["sources"]) or (
+                "sources_metadata" in msg and msg["sources_metadata"]
+            ):
+                render_sources(
+                    sources=msg.get("sources", []),
+                    sources_metadata=msg.get("sources_metadata", []),
+                    key_prefix=f"hist_{idx}",
+                )
 
             # Botões de feedback para mensagens do assistente
             if msg["role"] == "assistant":
@@ -218,27 +317,45 @@ else:
                         st.rerun()
 
 # --- SUGESTÕES DE PERGUNTAS BASEADAS NOS DOCUMENTOS ---
-with st.expander("💡 Perguntas Recomendadas por Documento (Clique para testar)", expanded=False):
-    st.markdown("Selecione uma dúvida abaixo para testar o entendimento dos arquivos da empresa:")
+with st.expander(
+    "💡 Perguntas Recomendadas por Documento (Clique para testar)", expanded=False
+):
+    st.markdown(
+        "Selecione uma dúvida abaixo para testar o entendimento dos arquivos da empresa:"
+    )
     col_q1, col_q2 = st.columns(2)
     quick_prompt = None
     with col_q1:
         if st.button("📊 Preços Enterprise 2026 (CSV)", use_container_width=True):
             quick_prompt = "Quais são os planos de preços para 2026 e quais os valores mensais e anuais do plano Enterprise?"
-        if st.button("⚖️ Conflito de Interesses (Código de Conduta - PDF)", use_container_width=True):
+        if st.button(
+            "⚖️ Conflito de Interesses (Código de Conduta - PDF)",
+            use_container_width=True,
+        ):
             quick_prompt = "O que o código de conduta diz sobre conflito de interesses e atividades paralelas?"
-        if st.button("📈 Déficit de TI e Gráficos Brasscom (PDF)", use_container_width=True):
+        if st.button(
+            "📈 Déficit de TI e Gráficos Brasscom (PDF)", use_container_width=True
+        ):
             quick_prompt = "Qual é a projeção quantitativa do déficit anual de profissionais de TI segundo os dados e gráficos da Brasscom?"
         if st.button("🔒 Sigilo e NDA auFOOD (Word - DOCX)", use_container_width=True):
             quick_prompt = "Quais ativos de tecnologia e dados o colaborador do auFOOD é obrigado a manter sob sigilo absoluto segundo o NDA?"
     with col_q2:
-        if st.button("💻 Onboarding e Stack Técnica (PowerPoint - PPTX)", use_container_width=True):
+        if st.button(
+            "💻 Onboarding e Stack Técnica (PowerPoint - PPTX)",
+            use_container_width=True,
+        ):
             quick_prompt = "Qual é a stack de tecnologia recomendada no onboarding de desenvolvedores e quais ferramentas usamos?"
-        if st.button("🎓 Parceria Alura e Capacitação (Word/HTML)", use_container_width=True):
+        if st.button(
+            "🎓 Parceria Alura e Capacitação (Word/HTML)", use_container_width=True
+        ):
             quick_prompt = "De que forma a parceria da Alura auxilia a suprir a demanda de capacitação técnica dos colaboradores?"
-        if st.button("🏢 Horários e Comunicados Internos (HTML)", use_container_width=True):
+        if st.button(
+            "🏢 Horários e Comunicados Internos (HTML)", use_container_width=True
+        ):
             quick_prompt = "Quais são os horários de funcionamento dos refeitórios e regras de agendamento de salas?"
-        if st.button("🔌 Catálogo de APIs e Endpoints (JSON)", use_container_width=True):
+        if st.button(
+            "🔌 Catálogo de APIs e Endpoints (JSON)", use_container_width=True
+        ):
             quick_prompt = "Quais endpoints e métodos de autenticação estão documentados no catálogo de APIs de integração interna?"
 
 # Entrada de pergunta
@@ -277,16 +394,19 @@ if prompt:
                         st.markdown(
                             "- **Busca Adicional:** Ativada para complementar contexto faltante."
                         )
-            if result.get("sources"):
-                with st.expander("📚 Fontes consultadas"):
-                    for src in result["sources"]:
-                        st.write(f"- {src}")
+            if result.get("sources") or result.get("sources_metadata"):
+                render_sources(
+                    sources=result.get("sources", []),
+                    sources_metadata=result.get("sources_metadata", []),
+                    key_prefix="new_resp",
+                )
 
     st.session_state.messages.append(
         {
             "role": "assistant",
             "content": result["answer"],
             "sources": result.get("sources", []),
+            "sources_metadata": result.get("sources_metadata", []),
             "workflow": result.get("workflow", {}),
         }
     )
